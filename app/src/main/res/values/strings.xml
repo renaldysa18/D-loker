@@ -6,4 +6,5 @@
     <string name="notelp">No. Telp</string>
     <string name="password">Kata Sandi</string>
     <string name="retype_password">Ulangi Kata Sandi</string>
+    <string name="login">Masuk</string>
 </resources>
