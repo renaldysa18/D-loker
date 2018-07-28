@@ -32,6 +32,13 @@
                 android:layout_width="@dimen/edit_width"
                 android:layout_height="@dimen/edit_height" />
 
+            <ProgressBar
+                android:visibility="gone"
+                android:id="@+id/pb_forget"
+                android:layout_marginTop="@dimen/top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
             <Button
                 android:background="@color/darkBlur"
                 android:layout_marginTop="@dimen/top"
