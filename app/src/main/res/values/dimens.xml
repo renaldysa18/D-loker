@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="top">30dp</dimen>
+    <dimen name="edit_horizontal">300dp</dimen>
+    <dimen name="edit_height">50dp</dimen>
+    <dimen name="edit_width">300dp</dimen>
+    <dimen name="btn_width">150dp</dimen>
+    <dimen name="btn_height">50dp</dimen>
+    <dimen name="to_title">10dp</dimen>
+</resources>
