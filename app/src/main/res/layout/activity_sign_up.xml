@@ -67,6 +67,14 @@
                 android:layout_width="@dimen/edit_width"
                 android:layout_height="@dimen/edit_height" />
 
+            <ProgressBar
+                android:id="@+id/pb_signup"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
             <Button
                 android:textAppearance="?android:textAppearanceMedium"
                 android:background="@color/backgroudn"
@@ -76,8 +84,18 @@
                 android:text="@string/daftar"
                 android:layout_width="@dimen/edit_width"
                 android:layout_height="@dimen/edit_height"
-                android:layout_marginBottom="@dimen/top"
                 />
+
+            <Button
+                android:layout_marginBottom="@dimen/top"
+                android:id="@+id/singup_to_login"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/backgroudn"
+                android:text="@string/login"
+                android:background="@drawable/button_border_blue"
+                android:layout_marginTop="10dp"
+                android:layout_width="@dimen/edit_width"
+                android:layout_height="@dimen/edit_height" />
         </LinearLayout>
 
     </ScrollView>
