@@ -7,4 +7,5 @@
     <string name="password">Kata Sandi</string>
     <string name="retype_password">Ulangi Kata Sandi</string>
     <string name="login">Masuk</string>
+    <string name="forget">Lupa Password</string>
 </resources>
