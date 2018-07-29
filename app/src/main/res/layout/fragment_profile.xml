@@ -1,14 +1,206 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="15dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ProfileFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="profile" />
+        android:layout_height="match_parent">
 
-</FrameLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/top"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile_pict"
+                    android:src="@drawable/avatar"
+                    app:civ_border_width="0dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="@dimen/top"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/profile_nama"
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/nama"
+                        android:textAppearance="?android:textAppearanceLarge" />
+
+                    <TextView
+                        android:id="@+id/profile_email"
+                        android:layout_width="170dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:text="@string/email"
+                        android:textAppearance="?android:textAppearanceMedium" />
+
+                </LinearLayout>
+                
+            </LinearLayout>
+
+            <TextView
+                android:textColor="@color/darkBlur"
+                android:text="@string/data_diri"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:layout_marginTop="@dimen/top"
+                android:layout_width="@dimen/edit_width"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:textColor="@color/darkBlur"
+                android:layout_marginTop="@dimen/top"
+                android:text="@string/jenis_kelamin"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:layout_width="@dimen/edit_width"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:text="@string/jenis_kelamin"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:id="@+id/profile_gender"
+                android:layout_marginTop="@dimen/top_title"
+                android:layout_width="@dimen/edit_width"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:text="@string/ttl"
+                android:layout_marginTop="@dimen/top"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@color/darkBlur"
+                android:layout_width="@dimen/edit_width"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:textAppearance="?android:textAppearanceMedium"
+                android:text="@string/ttl"
+                android:id="@+id/profile_ttl"
+                android:layout_marginTop="@dimen/to_title"
+                android:layout_width="@dimen/edit_width"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:textColor="@color/darkBlur"
+                android:layout_marginTop="@dimen/top"
+                android:text="@string/alamat"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:layout_width="@dimen/edit_width"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_marginTop="@dimen/to_title"
+                android:id="@+id/profile_alamat"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:text="@string/alamat"
+                android:layout_width="@dimen/edit_width"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:textColor="@color/darkBlur"
+                android:text="@string/notelp"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:layout_marginTop="@dimen/top"
+                android:layout_width="@dimen/edit_width"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_marginTop="@dimen/to_title"
+                android:id="@+id/profile_notelp"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:text="@string/notelp"
+                android:layout_width="@dimen/edit_width"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_marginTop="@dimen/top"
+                android:textColor="@color/darkBlur"
+                android:text="@string/bidang_kerja"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:layout_width="@dimen/edit_width"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_marginTop="@dimen/to_title"
+                android:id="@+id/profile_bidang_kerja"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:text="@string/bidang_kerja"
+                android:layout_width="@dimen/edit_width"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:textColor="@color/darkBlur"
+                android:layout_marginTop="@dimen/top"
+                android:text="@string/hambatan_disabilitas"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:layout_width="@dimen/edit_width"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_marginTop="@dimen/to_title"
+                android:id="@+id/profile_disabilitas"
+                android:text="@string/hambatan_disabilitas"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:layout_width="@dimen/edit_width"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:layout_marginBottom="@dimen/top"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <Button
+                    android:id="@+id/btn_unggah_Cv"
+                    android:textColor="@color/darkBlur"
+                    android:text="@string/unggah_cv"
+                    android:textAppearance="?android:textAppearanceSmall"
+                    android:background="@drawable/button_border_blue"
+                    android:layout_width="150dp"
+                    android:layout_height="@dimen/edit_height" />
+
+                <Button
+                    android:layout_marginLeft="@dimen/to_title"
+                    android:id="@+id/btn_lihat_Cv"
+                    android:textColor="@color/darkBlur"
+                    android:text="@string/lihat_cv"
+                    android:textAppearance="?android:textAppearanceSmall"
+                    android:background="@drawable/button_border_blue"
+                    android:layout_width="150dp"
+                    android:layout_height="@dimen/edit_height" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_edit_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="65dp"
+        android:layout_marginEnd="30dp"
+        android:src="@drawable/ic_edit_black_24dp" />
+
+</RelativeLayout>
