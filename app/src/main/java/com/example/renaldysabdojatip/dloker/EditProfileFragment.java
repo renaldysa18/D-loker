@@ -149,12 +149,19 @@ public class EditProfileFragment extends Fragment {
             public void onClick(View v) {
                 final String Snama , Semail, Snotelp, Sbidang, Salamat, Sttl;
 
+                //edit value
                 Snama = nama.getText().toString().trim();
                 Semail = email.getText().toString().trim();
                 Snotelp = notelp.getText().toString().trim();
                 Sbidang = bidangkerja.getText().toString().trim();
                 Salamat = alamat.getText().toString().trim();
                 Sttl = ttl.getText().toString().trim();
+
+                //spinner value
+                final String Sgender, Sdisabilitas;
+
+                Sgender = gender.getSelectedItem().toString();
+                Sdisabilitas = disabilitas.getSelectedItem().toString();
 
                 //nama
                 if(Snama.isEmpty()){
@@ -221,6 +228,8 @@ public class EditProfileFragment extends Fragment {
                         dataSnapshot.getRef().child("BidangKerja").setValue(Sbidang);
                         dataSnapshot.getRef().child("TempatTanggalLahir").setValue(Sttl);
 
+                        dataSnapshot.getRef().child("Gender").setValue(Sgender);
+                        dataSnapshot.getRef().child("Disabilitas").setValue(Sdisabilitas);
                     }
 
                     @Override
