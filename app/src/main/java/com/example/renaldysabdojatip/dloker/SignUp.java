@@ -102,7 +102,9 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
 
     private void signupCheck() {
 
-        final String Snama, Semail, Snotelp, Spass, Sre_pass;
+        final String Snama, Semail, Snotelp, Spass, Sre_pass, Snull;
+
+        Snull = "-";
 
         Snama = nama.getText().toString().trim();
         Semail = email.getText().toString().trim();
@@ -208,6 +210,13 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
                     newPost.put("Email", Semail);
                     newPost.put("Nama", Snama);
                     newPost.put("NoTelp", Snotelp);
+
+                    //try
+                    newPost.put("Gender", Snull);
+                    newPost.put("Alamat", Snull);
+                    newPost.put("BidangKerja",Snull);
+                    newPost.put("TempatTanggalLahir", Snull);
+                    newPost.put("Disabilitas", Snull);
 
                     mRef.setValue(newPost);
 
