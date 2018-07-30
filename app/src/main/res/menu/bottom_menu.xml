@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/bottom_search"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:title="@string/item_search" />
+
+    <item
+        android:id="@+id/bottom_rekom"
+        android:icon="@drawable/ic_cake_black_24dp"
+        android:title="@string/item_rekom" />
+
+    <item
+        android:id="@+id/bottom_timeline"
+        android:icon="@drawable/ic_access_time_black_24dp"
+        android:title="@string/item_timeline" />
+
+    <item
+        android:id="@+id/bottom_profile"
+        android:icon="@drawable/ic_person_black_24dp"
+        android:title="@string/item_profile" />
+
+</menu>
