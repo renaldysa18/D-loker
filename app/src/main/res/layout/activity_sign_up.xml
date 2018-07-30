@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroudn"
+    android:padding="@dimen/padding"
+    tools:context=".SignUp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:background="@color/white"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_marginTop="@dimen/top"
+                android:text="@string/daftar"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:layout_width="@dimen/edit_width"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/nama_signup"
+                android:hint="@string/nama"
+                android:layout_marginTop="@dimen/top"
+                android:layout_width="@dimen/edit_width"
+                android:layout_height="@dimen/edit_height" />
+
+
+            <EditText
+                android:inputType="textEmailAddress"
+                android:id="@+id/email_signup"
+                android:hint="@string/email"
+                android:layout_marginTop="@dimen/top"
+                android:layout_width="@dimen/edit_width"
+                android:layout_height="@dimen/edit_height" />
+
+
+            <EditText
+                android:inputType="number"
+                android:id="@+id/notelp_signup"
+                android:hint="@string/notelp"
+                android:layout_marginTop="@dimen/top"
+                android:layout_width="@dimen/edit_width"
+                android:layout_height="@dimen/edit_height" />
+
+            <EditText
+                android:id="@+id/password_signup"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:layout_marginTop="@dimen/top"
+                android:layout_width="@dimen/edit_width"
+                android:layout_height="@dimen/edit_height" />
+
+            <EditText
+                android:id="@+id/retype_pass_singup"
+                android:inputType="textPassword"
+                android:hint="@string/retype_password"
+                android:layout_marginTop="@dimen/top"
+                android:layout_width="@dimen/edit_width"
+                android:layout_height="@dimen/edit_height" />
+
+            <ProgressBar
+                android:id="@+id/pb_signup"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+            <Button
+                android:textAppearance="?android:textAppearanceMedium"
+                android:background="@color/backgroudn"
+                android:textColor="@color/white"
+                android:id="@+id/daftar_btn"
+                android:layout_marginTop="@dimen/top"
+                android:text="@string/daftar"
+                android:layout_width="@dimen/edit_width"
+                android:layout_height="@dimen/edit_height"
+                />
+
+            <Button
+                android:layout_marginBottom="@dimen/top"
+                android:id="@+id/singup_to_login"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/backgroudn"
+                android:text="@string/login"
+                android:background="@drawable/button_border_blue"
+                android:layout_marginTop="10dp"
+                android:layout_width="@dimen/edit_width"
+                android:layout_height="@dimen/edit_height" />
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+</RelativeLayout>

@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">D\'loker</string>
+    <string name="daftar">Daftar</string>
+    <string name="nama">Nama</string>
+    <string name="email">Email</string>
+    <string name="notelp">No. Telp</string>
+    <string name="password">Kata Sandi</string>
+    <string name="retype_password">Ulangi Kata Sandi</string>
+    <string name="login">Masuk</string>
+    <string name="forget">Lupa Password</string>
 </resources>
