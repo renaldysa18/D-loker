@@ -20,6 +20,8 @@ public class TimelineDetail extends AppCompatActivity {
     TextView tvTitle, tvPerusahaan, tvLokasi, tvDetail;
     String sTitle, sPerusahaan, sLokasi, sDetail;
 
+
+
     public TimelineDetail() {
     }
 
