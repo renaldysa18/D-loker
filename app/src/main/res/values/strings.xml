@@ -35,4 +35,8 @@
     <string name="edit_data_diri">Edit Data Diri</string>
     <string name="simpan">Simpan</string>
     <string name="keluar">Keluar</string>
+    <string name="kirim_lamaran">Kirim Lamaran</string>
+    <string name="tambah_bookmark">Tambah Bookmark</string>
+    <string name="Detail_pekerjaan">Detail Pekerjaan</string>
+    <string name="deskripsi">Deskripsi</string>
 </resources>

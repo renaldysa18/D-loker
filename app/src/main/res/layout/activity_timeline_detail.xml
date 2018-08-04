@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TimelineDetail">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toobar_detail"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:id="@+id/content_detail_timline"
+        android:layout_below="@id/toobar_detail"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/detail_timeline_card"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="5dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/imageView_timeline"
+                    android:layout_width="120dp"
+                    android:layout_height="90dp"
+                    android:padding="4dp" />
+
+                <TextView
+                    android:id="@+id/textViewTitle_timeline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@id/imageView_timeline"
+                    android:text="Penerjemah Literasi"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:id="@+id/textViewPerusahaan_timeline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/textViewTitle_timeline"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@id/imageView_timeline"
+                    android:text="Perpustakaan Imam"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+
+                <TextView
+                    android:id="@+id/textViewLokasi_timeline_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/textViewPerusahaan_timeline"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@id/imageView_timeline"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:text="Jakarta" />
+
+                <!--<TextView
+                    android:id="@+id/textViewWaktu_timeline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/textViewLokasi_timeline"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@id/imageView_timeline"
+                    android:text="1 jam yang lalu"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+        -->
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <ScrollView
+            android:layout_weight="2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+
+            <TextView
+                android:id="@+id/deksripsi_detail"
+                android:textColor="@color/black"
+                android:text="@string/deskripsi"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:layout_margin="7dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </ScrollView>
+
+        <Button
+            android:textColor="@color/white"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:text="@string/kirim_lamaran"
+            android:background="@color/backgroudn"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="@dimen/top"
+            android:id="@+id/btn_kirim_lamaran"
+            android:layout_width="@dimen/edit_width"
+            android:layout_height="@dimen/edit_height" />
+
+        <Button
+            android:textAppearance="?android:textAppearanceMedium"
+            android:text="@string/tambah_bookmark"
+            android:textColor="@color/white"
+            android:layout_marginBottom="@dimen/top"
+            android:background="@color/backgroudn"
+            android:id="@+id/btn_tmbh_bookmark"
+            android:layout_width="@dimen/edit_width"
+            android:layout_height="@dimen/edit_height" />
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,6 +1,7 @@
 package com.example.renaldysabdojatip.dloker;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +18,7 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.Timeli
     public CardView cardView;
     List<Timeline> timelines;
 
+
     public TimelineAdapter(Context mCtx, List<Timeline> timelines) {
         this.mCtx = mCtx;
         this.timelines = timelines;
@@ -31,11 +33,32 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.Timeli
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TimelineViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull TimelineViewHolder holder, final int position) {
         Timeline tm = timelines.get(position);
         holder.tvtitle.setText(tm.getTitle());
         holder.tvperusahaan.setText(tm.getPerusahaan());
         holder.tvlokasi.setText(tm.getLokasi());
+
+        final String title = tm.getTitle();
+        final String perusahaan = tm.getPerusahaan();
+        final String lokasi = tm.getLokasi();
+        final String detail = tm.getDetail();
+
+        holder.mCardview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), TimelineDetail.class);
+                intent.putExtra("Title", title);
+                intent.putExtra("Perusahaan", perusahaan);
+                intent.putExtra("Lokasi", lokasi);
+                intent.putExtra("DetailPekerjaan", detail);
+                v.getContext().startActivity(intent);
+
+
+
+                //Toast.makeText(v.getContext(), String.valueOf(position), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

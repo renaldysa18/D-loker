@@ -8,4 +8,5 @@
     <color name="white">#ffffff</color>
     <color name="darkBlur">#345ec9</color>
     <color name="tranparant">#00ffffff</color>
+    <color name="black">#000000</color>
 </resources>

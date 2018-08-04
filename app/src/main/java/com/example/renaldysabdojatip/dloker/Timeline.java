@@ -2,16 +2,25 @@ package com.example.renaldysabdojatip.dloker;
 
 public class Timeline {
 
-    private String title, perusahaan, lokasi;
+    private String title, perusahaan, lokasi, detail;
 
     public Timeline(){
 
     }
 
-    public Timeline(String title, String perusahaan, String lokasi) {
+    public Timeline(String title, String perusahaan, String lokasi, String detail) {
         this.title = title;
         this.perusahaan = perusahaan;
         this.lokasi = lokasi;
+        this.detail = detail;
+    }
+
+    public String getDetail() {
+        return detail;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
     }
 
     public String getTitle() {
