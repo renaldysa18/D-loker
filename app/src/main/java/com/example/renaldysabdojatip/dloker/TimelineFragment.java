@@ -46,17 +46,17 @@ public class TimelineFragment extends Fragment {
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(llm);
 
-        DatabaseReference data = mDatabase.child("Timeline");
+        DatabaseReference data = mDatabase.child("Lowongan");
         data.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 timelines.clear();
                 for (DataSnapshot ds : dataSnapshot.getChildren()){
-                    String title  = ds.child("Title").getValue(String.class);
-                    String perusahaan = ds.child("Perusahaan").getValue(String.class);
+                    String title  = ds.child("Judul").getValue(String.class);
+                    String perusahaan = ds.child("Kategori").getValue(String.class);
                     String lokasi = ds.child("Lokasi").getValue(String.class);
-                    String detail = ds.child("DetailPekerjaan").getValue(String.class);
+                    String detail = ds.child("Desc").getValue(String.class);
                     timelines.add(new Timeline(title, perusahaan, lokasi,detail));
                 }
 
