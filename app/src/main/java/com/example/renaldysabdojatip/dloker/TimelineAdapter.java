@@ -54,8 +54,6 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.Timeli
                 intent.putExtra("DetailPekerjaan", detail);
                 v.getContext().startActivity(intent);
 
-
-
                 //Toast.makeText(v.getContext(), String.valueOf(position), Toast.LENGTH_SHORT).show();
             }
         });
