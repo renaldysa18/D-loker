@@ -9,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,10 +20,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.sql.Time;
 
@@ -44,13 +52,19 @@ public class MainActivity extends AppCompatActivity
     private TimelineFragment tf;
     private RekomendasiFragment rekf;
 
+    //navigation
+    TextView tnama, temail;
+    ImageView pict;
+    String snama, semail;
+
+    View headerLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.main_nav);
 
@@ -97,6 +111,34 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        headerLayout = navigationView.getHeaderView(0);
+
+        tnama = (TextView)headerLayout.findViewById(R.id.nama_navigation);
+        temail = (TextView)headerLayout.findViewById(R.id.email_navigation);
+
+        //nama.setText("renal");
+
+        // set nama dan email header
+        String uid = mAuth.getUid();
+
+        DatabaseReference user = FirebaseDatabase.getInstance().getReference().child("Users").child(uid);
+
+        user.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                snama = dataSnapshot.child("Nama").getValue(String.class);
+                tnama.setText(snama);
+                semail =dataSnapshot.child("Email").getValue(String.class);
+                temail.setText(semail);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
