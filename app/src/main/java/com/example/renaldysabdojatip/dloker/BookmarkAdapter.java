@@ -8,33 +8,60 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 import java.util.List;
 
-public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.BookmarkViewHolder> {
+public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.BookmarkViewHolder>  {
+
+    FirebaseAuth mAuth;
+    DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
     private Context mCtx;
     public CardView cardView;
-    List<Bookmark> bookmarks;
+
+    public List<Bookmark> bookmarks;
 
     public BookmarkAdapter(Context mCtx, List<Bookmark> bookmarks) {
         this.mCtx = mCtx;
         this.bookmarks = bookmarks;
     }
 
-    public static class BookmarkViewHolder extends RecyclerView.ViewHolder{
+
+    public class BookmarkViewHolder extends RecyclerView.ViewHolder {
         public CardView card;
         public TextView tvTitle, tvPerusahaan, tvLokasi;
+        public Button btn_del;
+
 
         public BookmarkViewHolder(View itemView) {
             super(itemView);
-            card = (CardView)itemView.findViewById(R.id.cardview_bookmark);
-            tvTitle = (TextView)itemView.findViewById(R.id.textViewTitle_bookmark);
-            tvLokasi = (TextView)itemView.findViewById(R.id.textViewLokasi_bookmark);
-            tvPerusahaan = (TextView)itemView.findViewById(R.id.textViewPerusahaan_bookmark);
+            card = (CardView) itemView.findViewById(R.id.cardview_bookmark);
+            tvTitle = (TextView) itemView.findViewById(R.id.textViewTitle_bookmark);
+            tvLokasi = (TextView) itemView.findViewById(R.id.textViewLokasi_bookmark);
+            tvPerusahaan = (TextView) itemView.findViewById(R.id.textViewPerusahaan_bookmark);
+
+            btn_del = (Button)itemView.findViewById(R.id.btn_delete_bookmark);
+
         }
+
     }
+
+    public void remove(int position){
+        bookmarks.get(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, bookmarks.size());
+    }
+
 
     @NonNull
     @Override
@@ -44,8 +71,12 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BookmarkViewHolder holder, int position) {
-        Bookmark bm = bookmarks.get(position);
+    public void onBindViewHolder(@NonNull BookmarkViewHolder holder, final int position) {
+        final Bookmark bm = bookmarks.get(position);
+
+        mAuth = FirebaseAuth.getInstance();
+        final String sUid = mAuth.getUid();
+        final DatabaseReference mRef = mDatabase.child("Bookmark").child(sUid).child(bm.getTitle());
 
         holder.tvTitle.setText(bm.getTitle());
         holder.tvPerusahaan.setText(bm.getPerusahaan());
@@ -56,6 +87,26 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
         final String perusahaan = bm.getPerusahaan();
         final String lokasi = bm.getLokasi();
         final String detail = bm.getDetail();
+
+
+        holder.btn_del.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+             mRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    dataSnapshot.getRef().removeValue();
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+                remove(position);
+            }
+        });
 
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,12 +121,15 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
                 //Toast.makeText(v.getContext(), String.valueOf(position), Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
     @Override
     public int getItemCount() {
         return bookmarks.size();
     }
+
+
 
 
 }
