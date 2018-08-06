@@ -36,9 +36,9 @@ import javax.net.ssl.SNIMatcher;
  */
 public class EditProfileFragment extends Fragment {
 
-    private EditText nama, email, ttl, alamat, bidangkerja, notelp;
+    private EditText nama, email, ttl, alamat, notelp;
 
-    private Spinner disabilitas, gender;
+    private Spinner disabilitas, gender, bidang;
 
     private Button btn_save_edit;
 
@@ -73,14 +73,13 @@ public class EditProfileFragment extends Fragment {
         //spinner
         disabilitas = (Spinner)rootView.findViewById(R.id.edit_profile_disabilitas);
         gender = (Spinner)rootView.findViewById(R.id.edit_profile_gender);
-
+        bidang = (Spinner)rootView.findViewById(R.id.edit_profile_bidang_kerja);
 
         //edit
         nama = (EditText)rootView.findViewById(R.id.edit_profile_nama);
         email = (EditText)rootView.findViewById(R.id.edit_profile_email);
         ttl = (EditText)rootView.findViewById(R.id.edit_profile_ttl);
         alamat = (EditText)rootView.findViewById(R.id.edit_profile_alamat);
-        bidangkerja = (EditText)rootView.findViewById(R.id.edit_profile_bidang_kerja);
         notelp = (EditText)rootView.findViewById(R.id.edit_profile_notelp);
 
         //image
@@ -88,9 +87,11 @@ public class EditProfileFragment extends Fragment {
 
         //spinner array
 
-        String [] gender_array = {"Pria", "Wanita"};
+        final String [] gender_array = {"Pria", "Wanita"};
 
         String [] disabilitas_array = {"Tuna Rungu", "Tuna Wicara"};
+
+        final String [] bidang_kerja = {"Ekonomi", "Kuliner", "Teknologi"};
 
         //gender
         ArrayAdapter<String> LTRgender = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_dropdown_item,gender_array);
@@ -102,6 +103,10 @@ public class EditProfileFragment extends Fragment {
         LTRdisabilitas.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         disabilitas.setAdapter(LTRdisabilitas);
 
+        //bidang kerja
+        ArrayAdapter<String> LTRBidang =  new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_dropdown_item, bidang_kerja);
+        LTRBidang.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        bidang.setAdapter(LTRBidang);
 
         //firebase
         mAuth = FirebaseAuth.getInstance();
@@ -129,7 +134,6 @@ public class EditProfileFragment extends Fragment {
                 alamat.setText(dataAlamat);
                 ttl.setText(dataTTL);
                 notelp.setText(dataNotelp);
-                bidangkerja.setText(dataBidang);
 
             }
 
@@ -153,13 +157,14 @@ public class EditProfileFragment extends Fragment {
                 Snama = nama.getText().toString().trim();
                 Semail = email.getText().toString().trim();
                 Snotelp = notelp.getText().toString().trim();
-                Sbidang = bidangkerja.getText().toString().trim();
+
                 Salamat = alamat.getText().toString().trim();
                 Sttl = ttl.getText().toString().trim();
 
                 //spinner value
                 final String Sgender, Sdisabilitas;
 
+                Sbidang = bidang.getSelectedItem().toString();
                 Sgender = gender.getSelectedItem().toString();
                 Sdisabilitas = disabilitas.getSelectedItem().toString();
 
@@ -204,12 +209,6 @@ public class EditProfileFragment extends Fragment {
                     return;
                 }
 
-                //bidang
-                if(Sbidang.isEmpty()){
-                    bidangkerja.setError("Bidang Kerja Tidak Boleh Kosong");
-                    bidangkerja.requestFocus();
-                    return;
-                }
 
                 progressBar.setVisibility(View.VISIBLE);
 
