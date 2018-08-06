@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity
         DatabaseReference user = FirebaseDatabase.getInstance().getReference().child("Users").child(uid);
 
         user.addValueEventListener(new ValueEventListener() {
-            @Override
+            @Override  
             public void onDataChange(DataSnapshot dataSnapshot) {
                 snama = dataSnapshot.child("Nama").getValue(String.class);
                 tnama.setText(snama);

@@ -37,6 +37,7 @@
                 android:padding="8dp">
 
                 <ImageView
+                    android:background="@color/backgroudn"
                     android:id="@+id/imageView_timeline"
                     android:layout_width="120dp"
                     android:layout_height="90dp"

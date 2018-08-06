@@ -40,4 +40,6 @@
     <string name="Detail_pekerjaan">Detail Pekerjaan</string>
     <string name="deskripsi">Deskripsi</string>
     <string name="delete">Delete</string>
+    <string name="cari">Cari</string>
+    <string name="berdasarkan">Pencarian Berdasarkan</string>
 </resources>
