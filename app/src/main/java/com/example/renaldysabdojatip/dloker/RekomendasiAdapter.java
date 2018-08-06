@@ -1,6 +1,7 @@
 package com.example.renaldysabdojatip.dloker;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -32,7 +33,30 @@ public class RekomendasiAdapter extends RecyclerView.Adapter<RekomendasiAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull RekomendasiViewHolder holder, int position) {
+        Rekomendasi rm = rekomendasis.get(position);
 
+        holder.title.setText(rm.getTitle());
+        holder.kategori.setText(rm.getKategori());
+        holder.lokasi.setText(rm.getLokasi());
+
+        final String title = rm.getTitle();
+        final String kategori = rm.getKategori();
+        final String lokasi = rm.getLokasi();
+        final String detail = rm.getDetail();
+
+        holder.card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), TimelineDetail.class);
+                intent.putExtra("Title", title);
+                intent.putExtra("Kategori",kategori);
+                intent.putExtra("Lokasi", lokasi);
+                intent.putExtra("DetailPekerjaan", detail);
+                v.getContext().startActivity(intent);
+
+                //Toast.makeText(v.getContext(), String.valueOf(position), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -43,14 +67,14 @@ public class RekomendasiAdapter extends RecyclerView.Adapter<RekomendasiAdapter.
     public class RekomendasiViewHolder extends RecyclerView.ViewHolder{
 
         CardView card;
-        TextView title, perusahaan, lokasi;
+        TextView title, kategori, lokasi;
 
         public RekomendasiViewHolder(View itemView) {
             super(itemView);
 
             card = (CardView) itemView.findViewById(R.id.cardview_rekomendasi);
             title = (TextView)itemView.findViewById(R.id.textViewTitle_rekomendasi);
-            perusahaan = (TextView)itemView.findViewById(R.id.textViewPerusahaan_rekomendasi);
+            kategori = (TextView)itemView.findViewById(R.id.textViewPerusahaan_rekomendasi);
             lokasi = (TextView)itemView.findViewById(R.id.textViewLokasi_rekomendasi);
         }
     }

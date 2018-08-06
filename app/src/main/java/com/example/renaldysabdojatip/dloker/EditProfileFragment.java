@@ -91,7 +91,7 @@ public class EditProfileFragment extends Fragment {
 
         String [] disabilitas_array = {"Tuna Rungu", "Tuna Wicara"};
 
-        final String [] bidang_kerja = {"Ekonomi", "Kuliner", "Teknologi"};
+        final String [] bidang_kerja = {"Sosial", "Kuliner", "Teknologi", "Busana dan Tata Rias", "Keuangan"};
 
         //gender
         ArrayAdapter<String> LTRgender = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_dropdown_item,gender_array);

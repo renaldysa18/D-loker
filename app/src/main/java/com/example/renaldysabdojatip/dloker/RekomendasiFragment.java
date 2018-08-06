@@ -3,9 +3,22 @@ package com.example.renaldysabdojatip.dloker;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -13,6 +26,13 @@ import android.view.ViewGroup;
  */
 public class RekomendasiFragment extends Fragment {
 
+    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+    private FirebaseAuth mAuth;
+    private List<Rekomendasi> rekomendasis = new ArrayList<>();
+    private RekomendasiAdapter adapter;
+    private RecyclerView recyclerView;
+
+    public String bidangKerja;
 
     public RekomendasiFragment() {
         // Required empty public constructor
@@ -24,6 +44,57 @@ public class RekomendasiFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_rekomendasi, container, false);
+
+        recyclerView = (RecyclerView)v.findViewById(R.id.recycler_rekomendasi);
+
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(llm);
+
+        mAuth = FirebaseAuth.getInstance();
+        String uid = mAuth.getUid();
+
+        DatabaseReference user = mDatabase.child("Users").child(uid);
+
+        user.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                bidangKerja = dataSnapshot.child("BidangKerja").getValue(String.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        DatabaseReference mRef = mDatabase.child("Lowongan");
+        mRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                rekomendasis.clear();
+                for (DataSnapshot ds : dataSnapshot.getChildren()){
+                    String kategori = ds.child("Kategori").getValue(String.class);
+
+                    if(bidangKerja.equals(kategori)){
+                        String title = ds.child("Judul").getValue(String.class);
+                        String lokasi = ds.child("Lokasi").getValue(String.class);
+                        String detail = ds.child("Desc").getValue(String.class);
+                        rekomendasis.add(new Rekomendasi(title,kategori, lokasi, detail ));
+                    }
+                }
+
+                Toast.makeText(getActivity(), bidangKerja, Toast.LENGTH_SHORT).show();
+
+                adapter = new RekomendasiAdapter(getContext(), rekomendasis);
+                recyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         return v;
     }
