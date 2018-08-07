@@ -40,7 +40,7 @@
             <EditText
                 android:background="@color/white"
                 android:hint="@string/cari"
-                android:id="@+id/edit_search"
+                android:id="@+id/editText_search"
                 android:layout_width="@dimen/edit_width"
                 android:layout_height="@dimen/edit_height" />
 
