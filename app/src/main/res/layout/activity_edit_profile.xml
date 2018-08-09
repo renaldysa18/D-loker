@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EditProfileFragment">
+    tools:context=".EditProfile">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toobar_edit"
@@ -50,6 +50,11 @@
                     android:src="@drawable/ic_photo_camera_black_24dp" />
 
             </RelativeLayout>
+
+           <!-- <ImageView
+                android:id="@+id/coba"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />-->
 
             <TextView
                 android:id="@+id/judul_edit"

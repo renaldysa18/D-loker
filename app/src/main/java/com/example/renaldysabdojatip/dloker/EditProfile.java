@@ -1,8 +1,13 @@
 package com.example.renaldysabdojatip.dloker;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.FragmentManager;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -41,7 +46,7 @@ import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class EditProfile extends AppCompatActivity implements BottomSheetDialog.BottomSheetListener{
+public class EditProfile extends AppCompatActivity {
 
     private EditText nama, email, ttl, alamat, notelp;
     private Spinner disabilitas, gender, bidang;
@@ -62,7 +67,12 @@ public class EditProfile extends AppCompatActivity implements BottomSheetDialog.
 
     //uri
 
-    Uri filepath;
+    Uri filepath, cameraUri;
+
+    private static int REQUSET_CAMERA = 1;
+    private static int SELECT_FILE = 0;
+
+    private static int RESULT_IMAGE_PICK = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +81,7 @@ public class EditProfile extends AppCompatActivity implements BottomSheetDialog.
 
         pf = new ProfileFragment();
 
-        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar)findViewById(R.id.toobar_edit);
+        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toobar_edit);
         toolbar.setTitle(getString(R.string.edit_profile));
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
 
@@ -88,31 +98,31 @@ public class EditProfile extends AppCompatActivity implements BottomSheetDialog.
         storageReference = storage.getReference();
 
         //progressbar
-        progressBar = (ProgressBar)findViewById(R.id.pb_edit);
+        progressBar = (ProgressBar) findViewById(R.id.pb_edit);
 
         //spinner
-        disabilitas = (Spinner)findViewById(R.id.edit_profile_disabilitas);
-        gender = (Spinner)findViewById(R.id.edit_profile_gender);
-        bidang = (Spinner)findViewById(R.id.edit_profile_bidang_kerja);
+        disabilitas = (Spinner) findViewById(R.id.edit_profile_disabilitas);
+        gender = (Spinner) findViewById(R.id.edit_profile_gender);
+        bidang = (Spinner) findViewById(R.id.edit_profile_bidang_kerja);
 
         //edit
-        nama = (EditText)findViewById(R.id.edit_profile_nama);
-        email = (EditText)findViewById(R.id.edit_profile_email);
-        ttl = (EditText)findViewById(R.id.edit_profile_ttl);
-        alamat = (EditText)findViewById(R.id.edit_profile_alamat);
-        notelp = (EditText)findViewById(R.id.edit_profile_notelp);
+        nama = (EditText) findViewById(R.id.edit_profile_nama);
+        email = (EditText) findViewById(R.id.edit_profile_email);
+        ttl = (EditText) findViewById(R.id.edit_profile_ttl);
+        alamat = (EditText) findViewById(R.id.edit_profile_alamat);
+        notelp = (EditText) findViewById(R.id.edit_profile_notelp);
 
 
         //spinner array
 
-        final String [] gender_array = {"Pria", "Wanita"};
+        final String[] gender_array = {"Pria", "Wanita"};
 
-        String [] disabilitas_array = {"Tuna Rungu", "Tuna Wicara"};
+        String[] disabilitas_array = {"Tuna Rungu", "Tuna Wicara"};
 
-        final String [] bidang_kerja = {"Sosial", "Kuliner", "Teknologi", "Busana dan Tata Rias", "Keuangan"};
+        final String[] bidang_kerja = {"Sosial", "Kuliner", "Teknologi", "Busana dan Tata Rias", "Keuangan"};
 
         //gender
-        ArrayAdapter<String> LTRgender = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item,gender_array);
+        ArrayAdapter<String> LTRgender = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, gender_array);
         LTRgender.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         gender.setAdapter(LTRgender);
 
@@ -122,7 +132,7 @@ public class EditProfile extends AppCompatActivity implements BottomSheetDialog.
         disabilitas.setAdapter(LTRdisabilitas);
 
         //bidang kerja
-        ArrayAdapter<String> LTRBidang =  new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, bidang_kerja);
+        ArrayAdapter<String> LTRBidang = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, bidang_kerja);
         LTRBidang.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         bidang.setAdapter(LTRBidang);
 
@@ -133,7 +143,7 @@ public class EditProfile extends AppCompatActivity implements BottomSheetDialog.
         mRef = FirebaseDatabase.getInstance().getReference("Users").child(mUser.getUid());
 
         //btn
-        btn_save_edit = (Button)findViewById(R.id.btn_edit_profile);
+        btn_save_edit = (Button) findViewById(R.id.btn_edit_profile);
 
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -148,11 +158,11 @@ public class EditProfile extends AppCompatActivity implements BottomSheetDialog.
                 dataBidang = dataSnapshot.child("BidangKerja").getValue().toString();
 
                 //image
-                String url;
+                /*String url;
                 url = dataSnapshot.child("Pict").getValue().toString(); 
                 Glide.with(EditProfile.this)
                         .load(url)
-                        .into(pict);
+                        .into(pict);*/
 
                 nama.setText(dataNama);
                 email.setText(dataEmail);
@@ -174,7 +184,7 @@ public class EditProfile extends AppCompatActivity implements BottomSheetDialog.
             @Override
             public void onClick(View v) {
 
-                final String Snama , Semail, Snotelp, Sbidang, Salamat, Sttl;
+                final String Snama, Semail, Snotelp, Sbidang, Salamat, Sttl;
 
                 //edit value
                 Snama = nama.getText().toString().trim();
@@ -193,41 +203,41 @@ public class EditProfile extends AppCompatActivity implements BottomSheetDialog.
 
                 //image
                 //nama
-                if(Snama.isEmpty()){
+                if (Snama.isEmpty()) {
                     nama.setError("Nama Tidak Boleh Kosong");
                     nama.requestFocus();
                     return;
                 }
 
                 //email
-                if(Semail.isEmpty()){
+                if (Semail.isEmpty()) {
                     email.setError("Email Tidak Boleh Kosong");
                     email.requestFocus();
                     return;
                 }
 
-                if(!Patterns.EMAIL_ADDRESS.matcher(Semail).matches()){
+                if (!Patterns.EMAIL_ADDRESS.matcher(Semail).matches()) {
                     email.setError("Email Tidak Benar");
                     email.requestFocus();
                     return;
                 }
 
                 //notelp
-                if(Snotelp.isEmpty()){
+                if (Snotelp.isEmpty()) {
                     notelp.setError("Nomor Telepon Tidak Boleh Kosong");
                     notelp.requestFocus();
                     return;
                 }
 
                 //alamat
-                if(Salamat.isEmpty()){
+                if (Salamat.isEmpty()) {
                     alamat.setError("Alamat Tidak Boleh Kosong");
                     alamat.requestFocus();
                     return;
                 }
 
                 //ttl
-                if(Sttl.isEmpty()){
+                if (Sttl.isEmpty()) {
                     ttl.setError("Tempat Tanggal Lahir Tidak Boleh Kosong");
                     ttl.requestFocus();
                     return;
@@ -268,7 +278,7 @@ public class EditProfile extends AppCompatActivity implements BottomSheetDialog.
 
                         progressBar.setVisibility(View.GONE);
 
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()) {
 
 
                             /*FragmentManager fm = getFragmentManager();
@@ -279,78 +289,79 @@ public class EditProfile extends AppCompatActivity implements BottomSheetDialog.
                     }
                 });
 
-                uploadImage();
             }
         });
 
 
         //bottom sheet dialog
-        judul_edit = (TextView)findViewById(R.id.judul_edit);
+        judul_edit = (TextView) findViewById(R.id.judul_edit);
 
         //image
         pict = (CircleImageView) findViewById(R.id.edit_profile_pict);
 
 
-        btn_pict = (ImageButton)findViewById(R.id.btn_edit_pict);
-
+        btn_pict = (ImageButton) findViewById(R.id.btn_edit_pict);
         btn_pict.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BottomSheetDialog bsd = new BottomSheetDialog();
-                bsd.show(getSupportFragmentManager(), "bottomSheetDialog");
+                selectImage();
             }
         });
+
     }
 
-    private void uploadImage() {
-        if(filepath != null){
-            String uid = mUser.getUid();
-            final StorageReference ref = storageReference.child("images/"+ uid);
-            ref.putFile(filepath)
-                    .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+    public void selectImage() {
+        final CharSequence[] items = {"Camera", "Gallery", "Cancel"};
 
-                            if(task.isSuccessful()){
-                                ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                    @Override
-                                    public void onSuccess(Uri uri) {
-                                        Uri downloadImg = uri;
-                                        String Suri = downloadImg.toString();
-                                        mRef.child("Pict").setValue(Suri).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if(task.isSuccessful()){
-                                                    Toast.makeText(getApplicationContext(), "Berhasil", Toast.LENGTH_SHORT).show();
-                                                }
-                                            }
-                                        });
-                                    }
-                                });
-                            }
+        AlertDialog.Builder builder = new AlertDialog.Builder(EditProfile.this);
 
-                        }
-                    });
-                    /*.addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(EditProfile.this, "Failed", Toast.LENGTH_SHORT).show();
-                        }
-                    });*/
+        builder.setTitle("Profile Pict");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
+                if (items[i].equals("Camera")) {
+
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+                    startActivityForResult(intent, REQUSET_CAMERA);
+
+                } else if (items[i].equals("Gallery")) {
+
+                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    intent.setType("image/*");
+                    startActivityForResult(intent.createChooser(intent, "Select File"), SELECT_FILE);
+
+                } else if (items[i].equals("Cancel")) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == Activity.RESULT_OK) {
+
+            if (requestCode == REQUSET_CAMERA) {
+                
+                Bundle bundle = data.getExtras();
+                final Bitmap bmp = (Bitmap) bundle.get("data");
+                pict.setImageBitmap(bmp);
+
+
+            } else if (requestCode == SELECT_FILE) {
+
+                Uri imgUri = data.getData();
+                pict.setImageURI(imgUri);
+
+            }
+
 
         }
+
     }
-
-
-    @Override
-    public void onButtonClicked(Bitmap bitmap) {
-        pict.setImageBitmap(bitmap);
-    }
-
-    @Override
-    public void uri(Uri uri) {
-        this.filepath = uri;
-    }
-
-
 }
