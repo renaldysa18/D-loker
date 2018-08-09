@@ -2,6 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.renaldysabdojatip.dloker">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/dloker"
@@ -31,8 +39,12 @@
         <activity
             android:name=".TimelineDetail"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".SignUp"
+        <activity
+            android:name=".SignUp"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".EditProfile"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
     </application>
 
 </manifest>

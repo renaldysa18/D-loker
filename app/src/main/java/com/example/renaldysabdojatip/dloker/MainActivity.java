@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -34,8 +35,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.sql.Time;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     private static final String TAG = "MAIN_ACTIVITY";
     private BottomNavigationView bottomNavigationView;
@@ -54,8 +57,8 @@ public class MainActivity extends AppCompatActivity
 
     //navigation
     TextView tnama, temail;
-    ImageView pict;
-    String snama, semail;
+    CircleImageView pict;
+    String snama, semail, url;
 
     View headerLayout;
 
@@ -118,6 +121,7 @@ public class MainActivity extends AppCompatActivity
         tnama = (TextView)headerLayout.findViewById(R.id.nama_navigation);
         temail = (TextView)headerLayout.findViewById(R.id.email_navigation);
 
+        pict = (CircleImageView) headerLayout.findViewById(R.id.imageView_navigation);
         //nama.setText("renal");
 
         // set nama dan email header
@@ -132,6 +136,10 @@ public class MainActivity extends AppCompatActivity
                 tnama.setText(snama);
                 semail =dataSnapshot.child("Email").getValue(String.class);
                 temail.setText(semail);
+                url = dataSnapshot.child("Pict").getValue(String.class);
+                Glide.with(MainActivity.this)
+                        .load(url)
+                        .into(pict);
             }
 
             @Override

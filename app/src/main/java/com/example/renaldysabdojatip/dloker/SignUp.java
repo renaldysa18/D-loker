@@ -217,6 +217,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
                     newPost.put("BidangKerja",Snull);
                     newPost.put("TempatTanggalLahir", Snull);
                     newPost.put("Disabilitas", Snull);
+                    newPost.put("Pict", Snull);
 
                     mRef.setValue(newPost);
 

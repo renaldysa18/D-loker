@@ -42,4 +42,7 @@
     <string name="delete">Delete</string>
     <string name="cari">Cari</string>
     <string name="berdasarkan">Pencarian Berdasarkan</string>
+    <string name="photo">Photo</string>
+    <string name="gallery">Gallery</string>
+    <string name="edit_profile">Edit Profile</string>
 </resources>

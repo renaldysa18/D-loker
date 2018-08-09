@@ -1,10 +1,12 @@
 package com.example.renaldysabdojatip.dloker;
 
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -21,6 +24,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 
 /**
@@ -38,7 +43,9 @@ public class ProfileFragment extends Fragment {
 
     Boolean isOpen = false;
 
-    private EditProfileFragment ep;
+    //private EditProfileFragment ep;
+
+    private EditProfile editProfile;
 
     //firebase
 
@@ -47,6 +54,12 @@ public class ProfileFragment extends Fragment {
     FirebaseUser mUser;
 
     DatabaseReference mRef;
+
+    //firebase storage
+    FirebaseStorage storage;
+    StorageReference storageReference;
+
+    Uri imgUri;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -60,7 +73,11 @@ public class ProfileFragment extends Fragment {
         View rootView =  inflater.inflate(R.layout.fragment_profile, container, false);
 
         //init
-        ep = new EditProfileFragment();
+        //ep = new EditProfileFragment();
+
+        //storage
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -92,15 +109,18 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if(isOpen){
+                /*if(isOpen){
                     FragmentManager fm  = getFragmentManager();
                     fm.beginTransaction().remove(ep).commit();
+
                     isOpen = false;
-                } else {
-                    FragmentManager fm = getFragmentManager();
-                    fm.beginTransaction().replace(R.id.main_frame, ep).commit();
-                    isOpen = true;
-                }
+                } else {*/
+                    Intent intent = new Intent(getActivity(), EditProfile.class);
+                    startActivity(intent);
+                    /*FragmentManager fm = getFragmentManager();
+                    fm.beginTransaction().replace(R.id.main_frame, ep).commit();*/
+                    /*isOpen = true;
+                }*/
             }
         });
         //btn unggah
@@ -134,6 +154,14 @@ public class ProfileFragment extends Fragment {
                 dataTTL = dataSnapshot.child("TempatTanggalLahir").getValue().toString();
                 dataDisabilitas = dataSnapshot.child("Disabilitas").getValue().toString();
 
+                String url;
+                url = dataSnapshot.child("Pict").getValue().toString();
+                Glide.with(getActivity())
+                        .load(url)
+                        .into(pictProfil);
+
+
+
                 nama.setText(dataNama);
                 email.setText(dataEmail);
                 alamat.setText(dataAlamat);
@@ -154,6 +182,10 @@ public class ProfileFragment extends Fragment {
         });
 
 
+
+
+
+
         return rootView;
     }
 
@@ -163,4 +195,5 @@ public class ProfileFragment extends Fragment {
 
         ((MainActivity)getActivity()).setActionBarTitle("Profile");
     }
+
 }

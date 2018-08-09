@@ -6,7 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".EditProfileFragment">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toobar_edit"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.Toolbar>
+
     <ScrollView
+        android:layout_below="@id/toobar_edit"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -16,14 +27,29 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/edit_profile_pict"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_marginTop="@dimen/top"
-                android:src="@drawable/avatar"
-                app:civ_border_width="0dp" />
+            <RelativeLayout
+                android:paddingBottom="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/edit_profile_pict"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/top"
+                    android:src="@drawable/avatar"
+                    app:civ_border_width="0dp" />
+
+                <ImageButton
+                    android:id="@+id/btn_edit_pict"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignEnd="@+id/edit_profile_pict"
+                    android:layout_alignParentBottom="true"
+                    android:src="@drawable/ic_photo_camera_black_24dp" />
+
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/judul_edit"

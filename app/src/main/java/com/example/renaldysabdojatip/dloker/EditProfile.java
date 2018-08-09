@@ -1,26 +1,30 @@
 package com.example.renaldysabdojatip.dloker;
 
-
+import android.app.FragmentManager;
 import android.graphics.Bitmap;
-import android.os.Bundle;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,67 +33,75 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
-import org.w3c.dom.Text;
+import java.util.UUID;
 
-import javax.net.ssl.SNIMatcher;
+import de.hdodenhof.circleimageview.CircleImageView;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
-public class EditProfileFragment extends Fragment{
+public class EditProfile extends AppCompatActivity implements BottomSheetDialog.BottomSheetListener{
 
     private EditText nama, email, ttl, alamat, notelp;
-
     private Spinner disabilitas, gender, bidang;
-
     private Button btn_save_edit;
-
-    private ImageView pict;
-
+    private CircleImageView pict;
     private FirebaseUser mUser;
-
     private FirebaseAuth mAuth;
-
     private DatabaseReference mRef;
-
     private ProfileFragment pf;
-
     private ProgressBar progressBar;
-
     private TextView judul_edit;
+    private ImageButton btn_pict;
 
-    public EditProfileFragment() {
-        // Required empty public constructor
-    }
+    //image
+    //firebase store
+    FirebaseStorage storage;
+    StorageReference storageReference;
 
+    //uri
+
+    Uri filepath;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_edit_profile, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_edit_profile);
 
         pf = new ProfileFragment();
 
+        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar)findViewById(R.id.toobar_edit);
+        toolbar.setTitle(getString(R.string.edit_profile));
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+
+        //init firebase store
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
+
         //progressbar
-        progressBar = (ProgressBar)rootView.findViewById(R.id.pb_edit);
+        progressBar = (ProgressBar)findViewById(R.id.pb_edit);
 
         //spinner
-        disabilitas = (Spinner)rootView.findViewById(R.id.edit_profile_disabilitas);
-        gender = (Spinner)rootView.findViewById(R.id.edit_profile_gender);
-        bidang = (Spinner)rootView.findViewById(R.id.edit_profile_bidang_kerja);
+        disabilitas = (Spinner)findViewById(R.id.edit_profile_disabilitas);
+        gender = (Spinner)findViewById(R.id.edit_profile_gender);
+        bidang = (Spinner)findViewById(R.id.edit_profile_bidang_kerja);
 
         //edit
-        nama = (EditText)rootView.findViewById(R.id.edit_profile_nama);
-        email = (EditText)rootView.findViewById(R.id.edit_profile_email);
-        ttl = (EditText)rootView.findViewById(R.id.edit_profile_ttl);
-        alamat = (EditText)rootView.findViewById(R.id.edit_profile_alamat);
-        notelp = (EditText)rootView.findViewById(R.id.edit_profile_notelp);
+        nama = (EditText)findViewById(R.id.edit_profile_nama);
+        email = (EditText)findViewById(R.id.edit_profile_email);
+        ttl = (EditText)findViewById(R.id.edit_profile_ttl);
+        alamat = (EditText)findViewById(R.id.edit_profile_alamat);
+        notelp = (EditText)findViewById(R.id.edit_profile_notelp);
 
-        //image
-        pict = (ImageView)rootView.findViewById(R.id.edit_profile_pict);
 
         //spinner array
 
@@ -100,17 +112,17 @@ public class EditProfileFragment extends Fragment{
         final String [] bidang_kerja = {"Sosial", "Kuliner", "Teknologi", "Busana dan Tata Rias", "Keuangan"};
 
         //gender
-        ArrayAdapter<String> LTRgender = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_dropdown_item,gender_array);
+        ArrayAdapter<String> LTRgender = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item,gender_array);
         LTRgender.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         gender.setAdapter(LTRgender);
 
         //disabilitas
-        ArrayAdapter<String> LTRdisabilitas = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_dropdown_item, disabilitas_array);
+        ArrayAdapter<String> LTRdisabilitas = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, disabilitas_array);
         LTRdisabilitas.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         disabilitas.setAdapter(LTRdisabilitas);
 
         //bidang kerja
-        ArrayAdapter<String> LTRBidang =  new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_dropdown_item, bidang_kerja);
+        ArrayAdapter<String> LTRBidang =  new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, bidang_kerja);
         LTRBidang.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         bidang.setAdapter(LTRBidang);
 
@@ -121,7 +133,7 @@ public class EditProfileFragment extends Fragment{
         mRef = FirebaseDatabase.getInstance().getReference("Users").child(mUser.getUid());
 
         //btn
-        btn_save_edit = (Button)rootView.findViewById(R.id.btn_edit_profile);
+        btn_save_edit = (Button)findViewById(R.id.btn_edit_profile);
 
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -134,6 +146,14 @@ public class EditProfileFragment extends Fragment{
                 dataNotelp = dataSnapshot.child("NoTelp").getValue().toString();
                 dataTTL = dataSnapshot.child("TempatTanggalLahir").getValue().toString();
                 dataBidang = dataSnapshot.child("BidangKerja").getValue().toString();
+
+                //image
+                String url;
+                url = dataSnapshot.child("Pict").getValue().toString();
+
+                Glide.with(EditProfile.this)
+                        .load(url)
+                        .into(pict);
 
                 nama.setText(dataNama);
                 email.setText(dataEmail);
@@ -151,12 +171,10 @@ public class EditProfileFragment extends Fragment{
             }
         });
 
-
-
-        //btn clicked
         btn_save_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 final String Snama , Semail, Snotelp, Sbidang, Salamat, Sttl;
 
                 //edit value
@@ -174,6 +192,7 @@ public class EditProfileFragment extends Fragment{
                 Sgender = gender.getSelectedItem().toString();
                 Sdisabilitas = disabilitas.getSelectedItem().toString();
 
+                //image
                 //nama
                 if(Snama.isEmpty()){
                     nama.setError("Nama Tidak Boleh Kosong");
@@ -235,6 +254,9 @@ public class EditProfileFragment extends Fragment{
 
                         dataSnapshot.getRef().child("Gender").setValue(Sgender);
                         dataSnapshot.getRef().child("Disabilitas").setValue(Sdisabilitas);
+
+                        //coba
+                        //dataSnapshot.getRef().child("Pict").setValue(downloadImg);
                     }
 
                     @Override
@@ -251,41 +273,87 @@ public class EditProfileFragment extends Fragment{
 
                         if(task.isSuccessful()){
 
-                            android.support.v4.app.FragmentManager fm = getFragmentManager();
-                            fm.beginTransaction().replace(R.id.main_frame, pf).commit();
 
-                            Toast.makeText(getActivity(), "Berhasil", Toast.LENGTH_SHORT).show();
+                            /*FragmentManager fm = getFragmentManager();
+                            fm.beginTransaction().replace(R.id.main_frame, pf).commit();*/
+
+                            Toast.makeText(EditProfile.this, "Berhasil", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
+
+                uploadImage();
             }
         });
 
 
         //bottom sheet dialog
-        judul_edit = (TextView)rootView.findViewById(R.id.judul_edit);
+        judul_edit = (TextView)findViewById(R.id.judul_edit);
 
-        pict.setOnClickListener(new View.OnClickListener() {
+        //image
+        pict = (CircleImageView) findViewById(R.id.edit_profile_pict);
+
+
+        btn_pict = (ImageButton)findViewById(R.id.btn_edit_pict);
+
+        btn_pict.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 BottomSheetDialog bsd = new BottomSheetDialog();
-                bsd.show(getFragmentManager(), "bottomSheetDialog");
-
+                bsd.show(getSupportFragmentManager(), "bottomSheetDialog");
             }
         });
+    }
 
-        return rootView;
+    private void uploadImage() {
+        if(filepath != null){
+            String uid = mUser.getUid();
+            final StorageReference ref = storageReference.child("images/"+ uid);
+            ref.putFile(filepath)
+                    .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+
+                            if(task.isSuccessful()){
+                                ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        Uri downloadImg = uri;
+                                        String Suri = downloadImg.toString();
+                                        mRef.child("Pict").setValue(Suri).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if(task.isSuccessful()){
+                                                    Toast.makeText(getApplicationContext(), "Berhasil", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+
+                        }
+                    });
+                    /*.addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(EditProfile.this, "Failed", Toast.LENGTH_SHORT).show();
+                        }
+                    });*/
+
+        }
+    }
+
+
+    @Override
+    public void onButtonClicked(Bitmap bitmap) {
+        pict.setImageBitmap(bitmap);
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-
-        ((MainActivity)getActivity()).setActionBarTitle("Edit Profile");
-
+    public void uri(Uri uri) {
+        this.filepath = uri;
     }
-
 
 
 }
