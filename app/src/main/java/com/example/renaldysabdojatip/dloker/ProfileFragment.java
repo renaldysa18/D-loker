@@ -35,7 +35,7 @@ public class ProfileFragment extends Fragment {
 
     ImageView pictProfil;
 
-    TextView nama, email, alamat, ttl, gender, notelp, bidang_kerja, disabilitas;
+    TextView nama, email, alamat, ttl, gender, notelp, bidang_kerja, disabilitas, judul;
 
     Button btn_unggah, btn_lihat;
 
@@ -98,6 +98,9 @@ public class ProfileFragment extends Fragment {
         bidang_kerja = (TextView)rootView.findViewById(R.id.profile_bidang_kerja);
         disabilitas = (TextView)rootView.findViewById(R.id.profile_disabilitas);
 
+        //judul
+        judul = (TextView)rootView.findViewById(R.id.judul_profile);
+
         //button
         btn_lihat = (Button)rootView.findViewById(R.id.btn_lihat_Cv);
         btn_unggah = (Button)rootView.findViewById(R.id.btn_unggah_Cv);
@@ -153,6 +156,7 @@ public class ProfileFragment extends Fragment {
                 dataGender = dataSnapshot.child("Gender").getValue().toString();
                 dataTTL = dataSnapshot.child("TempatTanggalLahir").getValue().toString();
                 dataDisabilitas = dataSnapshot.child("Disabilitas").getValue().toString();
+
 
                 String url;
                 url = dataSnapshot.child("Pict").getValue().toString();

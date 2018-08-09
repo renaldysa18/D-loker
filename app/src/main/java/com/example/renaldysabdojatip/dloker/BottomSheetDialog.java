@@ -30,6 +30,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
     private Uri filePath;
     private ImageView coba;
     private int PICK_IMAGE_REQUEST = 1;
+    private int REQUEST_IMAGE_CAPTURE = 2;
 
     @Nullable
     @Override
@@ -53,12 +54,20 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
             @Override
             public void onClick(View v) {
                 //mListener.onButtonClicked("button photo clicked");
-                dismiss();
+                takePhoto();
             }
         });
 
 
         return v;
+    }
+
+    private void takePhoto() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+        }
     }
 
     private void chooseImage() {
@@ -85,6 +94,13 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        } else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == getActivity().RESULT_OK) {
+            filePath = data.getData();
+            mListener.uri(filePath);
+
+            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+            mListener.onButtonClicked(bitmap);
+            dismiss();
         }
     }
 
@@ -101,6 +117,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
 
     public interface BottomSheetListener {
         void onButtonClicked(Bitmap bitmap);
+
         void uri(Uri uri);
     }
 

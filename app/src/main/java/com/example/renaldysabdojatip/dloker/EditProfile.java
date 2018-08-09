@@ -149,8 +149,7 @@ public class EditProfile extends AppCompatActivity implements BottomSheetDialog.
 
                 //image
                 String url;
-                url = dataSnapshot.child("Pict").getValue().toString();
-
+                url = dataSnapshot.child("Pict").getValue().toString(); 
                 Glide.with(EditProfile.this)
                         .load(url)
                         .into(pict);
@@ -242,8 +241,6 @@ public class EditProfile extends AppCompatActivity implements BottomSheetDialog.
 
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-
-
 
                         dataSnapshot.getRef().child("Nama").setValue(Snama);
                         dataSnapshot.getRef().child("Email").setValue(Semail);

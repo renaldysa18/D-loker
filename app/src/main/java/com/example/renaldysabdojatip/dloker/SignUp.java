@@ -102,9 +102,11 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
 
     private void signupCheck() {
 
-        final String Snama, Semail, Snotelp, Spass, Sre_pass, Snull;
+        final String Snama, Semail, Snotelp, Spass, Sre_pass, Snull, Spict;
 
         Snull = "-";
+
+        Spict = "https://firebasestorage.googleapis.com/v0/b/dloker-aac16.appspot.com/o/images%2Favatar1.png?alt=media&token=5339f319-38c2-400d-9ef3-a40d0a891dd7";
 
         Snama = nama.getText().toString().trim();
         Semail = email.getText().toString().trim();
@@ -217,7 +219,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
                     newPost.put("BidangKerja",Snull);
                     newPost.put("TempatTanggalLahir", Snull);
                     newPost.put("Disabilitas", Snull);
-                    newPost.put("Pict", Snull);
+                    newPost.put("Pict", Spict);
 
                     mRef.setValue(newPost);
 
