@@ -3,6 +3,7 @@ package com.example.renaldysabdojatip.dloker;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -42,6 +43,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -158,11 +160,11 @@ public class EditProfile extends AppCompatActivity {
                 dataBidang = dataSnapshot.child("BidangKerja").getValue().toString();
 
                 //image
-                /*String url;
+                String url;
                 url = dataSnapshot.child("Pict").getValue().toString(); 
                 Glide.with(EditProfile.this)
                         .load(url)
-                        .into(pict);*/
+                        .into(pict);
 
                 nama.setText(dataNama);
                 email.setText(dataEmail);
@@ -322,7 +324,6 @@ public class EditProfile extends AppCompatActivity {
                 if (items[i].equals("Camera")) {
 
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
                     startActivityForResult(intent, REQUSET_CAMERA);
 
                 } else if (items[i].equals("Gallery")) {
@@ -347,21 +348,65 @@ public class EditProfile extends AppCompatActivity {
         if (resultCode == Activity.RESULT_OK) {
 
             if (requestCode == REQUSET_CAMERA) {
-                
+                Uri cameraUri;
                 Bundle bundle = data.getExtras();
                 final Bitmap bmp = (Bitmap) bundle.get("data");
-                pict.setImageBitmap(bmp);
+                cameraUri = getImageUri(EditProfile.this, bmp);
+                filepath = cameraUri;
+                uploadImg();
+                pict.setImageURI(filepath);
 
 
             } else if (requestCode == SELECT_FILE) {
-
-                Uri imgUri = data.getData();
-                pict.setImageURI(imgUri);
+                filepath = data.getData();
+                uploadImg();
+                pict.setImageURI(filepath);
 
             }
 
 
         }
 
+    }
+
+    public void uploadImg() {
+
+        if (filepath != null) {
+            String uid = mUser.getUid();
+            final StorageReference ref = storageReference.child("images/" + uid);
+            ref.putFile(filepath)
+                    .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+
+                            if (task.isSuccessful()) {
+                                ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        Uri downloadImg = uri;
+                                        String Suri = downloadImg.toString();
+                                        mRef.child("Pict").setValue(Suri).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    Toast.makeText(getApplicationContext(), "Berhasil", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+
+                        }
+                    });
+
+        }
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
     }
 }
