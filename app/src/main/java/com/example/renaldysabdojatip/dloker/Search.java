@@ -1,16 +1,19 @@
 package com.example.renaldysabdojatip.dloker;
 
 public class Search {
-    private String title, kategori, lokasi, detail;
+    private String title, kategori, lokasi, detail,idCompany, idLowongan, status;
     public Search() {
 
     }
 
-    public Search(String title, String kategori, String lokasi, String detail) {
+    public Search(String title, String kategori, String lokasi, String detail, String idCompany, String idLowongan, String status) {
         this.title = title;
         this.kategori = kategori;
         this.lokasi = lokasi;
         this.detail = detail;
+        this.idCompany = idCompany;
+        this.idLowongan = idLowongan;
+        this.status = status;
     }
 
     public String getTitle() {
@@ -43,5 +46,29 @@ public class Search {
 
     public void setDetail(String detail) {
         this.detail = detail;
+    }
+
+    public String getIdCompany() {
+        return idCompany;
+    }
+
+    public void setIdCompany(String idCompany) {
+        this.idCompany = idCompany;
+    }
+
+    public String getIdLowongan() {
+        return idLowongan;
+    }
+
+    public void setIdLowongan(String idLowongan) {
+        this.idLowongan = idLowongan;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

@@ -52,13 +52,12 @@
             android:text="Jakarta" />
 
         <TextView
-            android:id="@+id/textViewWaktu_riwayat"
+            android:id="@+id/status_riwayat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/textViewLokasi_riwayat"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_toRightOf="@id/textViewLokasi_riwayat"
+            android:layout_alignBottom="@+id/imageView_riwayat"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="19dp"
             android:text="Diterima"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
     </RelativeLayout>

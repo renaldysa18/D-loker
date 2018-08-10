@@ -42,6 +42,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         final String lokasi = sr.getLokasi();
         final String perusahaan = sr.getKategori();
         final String detail = sr.getDetail();
+        final String company = sr.getIdCompany();
+        final String lowongan = sr.getIdLowongan();
+        final String status = sr.getStatus();
 
         holder.mCard.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,6 +54,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
                 intent.putExtra("Perusahaan", perusahaan);
                 intent.putExtra("Lokasi", lokasi);
                 intent.putExtra("DetailPekerjaan", detail);
+                intent.putExtra("idCompany", company);
+                intent.putExtra("idLowongan", lowongan);
+                intent.putExtra("Status", status);
                 v.getContext().startActivity(intent);
                 v.getContext().startActivity(intent);
             }

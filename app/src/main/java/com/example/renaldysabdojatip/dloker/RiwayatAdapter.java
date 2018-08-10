@@ -1,5 +1,6 @@
 package com.example.renaldysabdojatip.dloker;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -25,7 +26,7 @@ public class RiwayatAdapter extends RecyclerView.Adapter<RiwayatAdapter.RiwayatV
 
     public class RiwayatViewHolder extends RecyclerView.ViewHolder{
        public  CardView mCard;
-       public TextView title, lokasi, kategori;
+       public TextView title, lokasi, kategori,status;
 
         public RiwayatViewHolder(View itemView) {
             super(itemView);
@@ -34,6 +35,8 @@ public class RiwayatAdapter extends RecyclerView.Adapter<RiwayatAdapter.RiwayatV
             title = (TextView)itemView.findViewById(R.id.textViewTitle_riwayat);
             lokasi = (TextView)itemView.findViewById(R.id.textViewLokasi_riwayat);
             kategori = (TextView)itemView.findViewById(R.id.textViewPerusahaan_riwayat);
+            status = (TextView)itemView.findViewById(R.id.status_riwayat);
+
         }
     }
 
@@ -44,19 +47,34 @@ public class RiwayatAdapter extends RecyclerView.Adapter<RiwayatAdapter.RiwayatV
         return new RiwayatViewHolder(v);
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull RiwayatViewHolder holder, int position) {
 
         Riwayat ry = riwayats.get(position);
 
+
         holder.title.setText(ry.getTitle());
         holder.lokasi.setText(ry.getLokasi());
         holder.kategori.setText(ry.getKategori());
+        if(ry.getStatus().equalsIgnoreCase("Menunggu")){
+            holder.status.setText(ry.getStatus());
+            holder.status.setTextColor(R.color.blue);
+        } else if (ry.getStatus().equalsIgnoreCase("Diterima")){
+            holder.status.setText(ry.getStatus());
+            holder.status.setTextColor(R.color.green);
+        } else if (ry.getStatus().equalsIgnoreCase("DiTolak")){
+            holder.status.setText(ry.getStatus());
+            holder.status.setTextColor(R.color.red);
+        }
 
         final String stitle = ry.getTitle();
         final String slokasi =  ry.getLokasi();
         final String skategori = ry.getKategori();
         final String sdetail = ry.getDetail();
+        final String company = ry.getIdCompany();
+        final String lowongan = ry.getIdLowongan();
+        final String status = ry.getStatus();
 
         holder.mCard.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +84,9 @@ public class RiwayatAdapter extends RecyclerView.Adapter<RiwayatAdapter.RiwayatV
                 intent.putExtra("Perusahaan", skategori);
                 intent.putExtra("Lokasi", slokasi);
                 intent.putExtra("DetailPekerjaan", sdetail);
+                intent.putExtra("idCompany", company);
+                intent.putExtra("idLowongan", lowongan);
+                intent.putExtra("Status", status);
                 v.getContext().startActivity(intent);
             }
         });

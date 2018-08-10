@@ -45,4 +45,6 @@
     <string name="photo">Photo</string>
     <string name="gallery">Gallery</string>
     <string name="edit_profile">Edit Profile</string>
+    <string name="pilih_cv">Pilih CV</string>
+    <string name="judul_cv">Judul CV</string>
 </resources>

@@ -1,9 +1,14 @@
 package com.example.renaldysabdojatip.dloker;
 
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.OpenableColumns;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -17,6 +22,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -26,6 +34,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.File;
 
 
 /**
@@ -35,9 +46,9 @@ public class ProfileFragment extends Fragment {
 
     ImageView pictProfil;
 
-    TextView nama, email, alamat, ttl, gender, notelp, bidang_kerja, disabilitas, judul;
+    TextView nama, email, alamat, ttl, gender, notelp, bidang_kerja, disabilitas, judul_cv;
 
-    Button btn_unggah, btn_lihat;
+    Button btn_unggah, btn_pilih;
 
     FloatingActionButton fab_edit;
 
@@ -53,13 +64,16 @@ public class ProfileFragment extends Fragment {
 
     FirebaseUser mUser;
 
-    DatabaseReference mRef;
+    DatabaseReference mRef, dataUser;
 
     //firebase storage
     FirebaseStorage storage;
     StorageReference storageReference;
 
-    Uri imgUri;
+    Uri imgUri, filepath;
+    String namaCV;
+
+    private static int SELECT_FILE = 1;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -99,10 +113,10 @@ public class ProfileFragment extends Fragment {
         disabilitas = (TextView)rootView.findViewById(R.id.profile_disabilitas);
 
         //judul
-        judul = (TextView)rootView.findViewById(R.id.judul_profile);
+        judul_cv = (TextView)rootView.findViewById(R.id.judul_cv);
 
         //button
-        btn_lihat = (Button)rootView.findViewById(R.id.btn_lihat_Cv);
+        btn_pilih = (Button)rootView.findViewById(R.id.btn_pilih_Cv);
         btn_unggah = (Button)rootView.findViewById(R.id.btn_unggah_Cv);
 
         //fab
@@ -130,14 +144,22 @@ public class ProfileFragment extends Fragment {
         btn_unggah.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "unggah clicked", Toast.LENGTH_SHORT).show();
+                uploadFile();
+                mRef.child("namaCV").setValue(namaCV).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Toast.makeText(getActivity(), "Mengirimkan Lamaran", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                Toast.makeText(getActivity(), "Mengirimkan Lamaran", Toast.LENGTH_SHORT).show();
             }
         });
 
         //btn lihat
-        btn_lihat.setOnClickListener(new View.OnClickListener() {
+        btn_pilih.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                pilihCV(1);
                 Toast.makeText(getActivity(), "Lihat clicked", Toast.LENGTH_SHORT).show();
             }
         });
@@ -146,7 +168,8 @@ public class ProfileFragment extends Fragment {
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String dataNama, dataEmail, dataNotelp, dataAlamat, dataBidang, dataDisabilitas, dataGender, dataTTL;
+                String dataNama, dataEmail, dataNotelp, dataAlamat,
+                        dataBidang, dataDisabilitas, dataGender, dataTTL, dataCV;
 
                 dataNama = dataSnapshot.child("Nama").getValue().toString();
                 dataEmail = dataSnapshot.child("Email").getValue().toString();
@@ -156,14 +179,13 @@ public class ProfileFragment extends Fragment {
                 dataGender = dataSnapshot.child("Gender").getValue().toString();
                 dataTTL = dataSnapshot.child("TempatTanggalLahir").getValue().toString();
                 dataDisabilitas = dataSnapshot.child("Disabilitas").getValue().toString();
-
+                dataCV = dataSnapshot.child("namaCV").getValue().toString();
 
                 String url;
                 url = dataSnapshot.child("Pict").getValue().toString();
                 Glide.with(getActivity())
                         .load(url)
                         .into(pictProfil);
-
 
 
                 nama.setText(dataNama);
@@ -174,7 +196,7 @@ public class ProfileFragment extends Fragment {
                 gender.setText(dataGender);
                 ttl.setText(dataTTL);
                 disabilitas.setText(dataDisabilitas);
-
+                judul_cv.setText(dataCV);
             }
 
             @Override
@@ -184,13 +206,64 @@ public class ProfileFragment extends Fragment {
 
             }
         });
-
-
-
-
-
-
         return rootView;
+    }
+
+    private void pilihCV(int pick) {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("application/pdf");
+        startActivityForResult(intent, SELECT_FILE);
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == Activity.RESULT_OK){
+            if(requestCode == SELECT_FILE){
+                String s = data.getDataString();
+                Uri uri = Uri.parse(s);
+                this.filepath = uri;
+                String path = data.getData().getPath();
+                String name = path.substring(path.lastIndexOf("/")+1);
+                this.namaCV = name;
+                judul_cv.setText(name);
+            }
+        }
+    }
+
+
+    private void uploadFile() {
+        if (filepath != null) {
+            String uid = mUser.getUid();
+            final StorageReference ref = storageReference.child("cv/" + uid);
+            ref.putFile(filepath)
+                    .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        Uri fileUri = uri;
+                                        String Suri = fileUri.toString();
+                                        mRef.child("CV").setValue(Suri).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    Toast.makeText(getActivity().getApplicationContext(), "Upload Cv", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+
+                        }
+                    });
+
+        }
     }
 
     @Override

@@ -87,6 +87,9 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
         final String perusahaan = bm.getPerusahaan();
         final String lokasi = bm.getLokasi();
         final String detail = bm.getDetail();
+        final String company = bm.getIdCompany();
+        final String lowongan = bm.getIdLowongan();
+        final String status = bm.getStatus();
 
 
         holder.btn_del.setOnClickListener(new View.OnClickListener() {
@@ -116,6 +119,9 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
                 intent.putExtra("Perusahaan", perusahaan);
                 intent.putExtra("Lokasi", lokasi);
                 intent.putExtra("DetailPekerjaan", detail);
+                intent.putExtra("idCompany", company);
+                intent.putExtra("idLowongan", lowongan);
+                intent.putExtra("Status", status);
                 v.getContext().startActivity(intent);
 
                 //Toast.makeText(v.getContext(), String.valueOf(position), Toast.LENGTH_SHORT).show();

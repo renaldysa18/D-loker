@@ -73,7 +73,10 @@ public class SearchFragment extends Fragment {
                     String kategori = ds.child("Kategori").getValue(String.class);
                     String lokasi = ds.child("Lokasi").getValue(String.class);
                     String detail = ds.child("Desc").getValue(String.class);
-                    searches.add(new Search(title, kategori, lokasi, detail));
+                    String idCompany = ds.child("idCompany").getValue(String.class);
+                    String idLowongan = ds.getKey().toString();
+                    String status = ds.child("Status").getValue(String.class);
+                    searches.add(new Search(title, kategori, lokasi, detail, idCompany, idLowongan, status));
                 }
                 adapter = new SearchAdapter(getContext(), searches);
                 recyclerView.setAdapter(adapter);
@@ -129,7 +132,10 @@ public class SearchFragment extends Fragment {
                                         String title = ds.child("Judul").getValue(String.class);
                                         String kategori = ds.child("Kategori").getValue(String.class);
                                         String detail = ds.child("Desc").getValue(String.class);
-                                        searches.add(new Search(title, slokasi, kategori, detail ));
+                                        String idCompany = ds.child("idCompany").getValue(String.class);
+                                        String idLowongan = ds.getKey().toString();
+                                        String status = ds.child("Status").getValue(String.class);
+                                        searches.add(new Search(title, slokasi, kategori, detail, idCompany, idLowongan, status ));
                                     }
                                 }
                                 adapter = new SearchAdapter(getContext(), searches);
@@ -155,7 +161,10 @@ public class SearchFragment extends Fragment {
                                         String title = ds.child("Judul").getValue(String.class);
                                         String lokasi = ds.child("Lokasi").getValue(String.class);
                                         String detail = ds.child("Desc").getValue(String.class);
-                                        searches.add(new Search(title,kategori, lokasi, detail ));
+                                        String idCompany = ds.child("idCompany").getValue(String.class);
+                                        String idLowongan = ds.getKey().toString();
+                                        String status = ds.child("Status").getValue(String.class);
+                                        searches.add(new Search(title,kategori, lokasi, detail, idCompany, idLowongan, status ));
                                     }
                                 }
                                 adapter = new SearchAdapter(getContext(), searches);

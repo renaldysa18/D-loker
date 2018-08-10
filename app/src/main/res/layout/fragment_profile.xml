@@ -160,6 +160,23 @@
                 android:layout_width="@dimen/edit_width"
                 android:layout_height="wrap_content" />
 
+            <TextView
+                android:textColor="@color/darkBlur"
+                android:layout_marginTop="@dimen/top"
+                android:text="@string/judul_cv"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:layout_width="@dimen/edit_width"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_marginTop="@dimen/to_title"
+                android:id="@+id/judul_cv"
+                android:text="@string/judul_cv"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:layout_width="@dimen/edit_width"
+                android:layout_height="wrap_content" />
+
+
             <LinearLayout
                 android:layout_marginBottom="@dimen/top"
                 android:orientation="horizontal"
@@ -179,9 +196,9 @@
 
                 <Button
                     android:layout_marginLeft="@dimen/to_title"
-                    android:id="@+id/btn_lihat_Cv"
+                    android:id="@+id/btn_pilih_Cv"
                     android:textColor="@color/darkBlur"
-                    android:text="@string/lihat_cv"
+                    android:text="@string/pilih_cv"
                     android:textAppearance="?android:textAppearanceSmall"
                     android:background="@drawable/button_border_blue"
                     android:layout_width="150dp"

@@ -67,14 +67,15 @@ public class BookmarkFragment extends Fragment {
 
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     //if (uid == sUid) {
-                        String title = ds.child("Title").getValue(String.class);
-                        String perusahaan = ds.child("Perusahaan").getValue(String.class);
-                        String lokasi = ds.child("Lokasi").getValue(String.class);
-                        String detail = ds.child("DetailPekerjaan").getValue(String.class);
+                    String title = ds.child("Title").getValue(String.class);
+                    String perusahaan = ds.child("Perusahaan").getValue(String.class);
+                    String lokasi = ds.child("Lokasi").getValue(String.class);
+                    String detail = ds.child("DetailPekerjaan").getValue(String.class);
+                    String idCompany = ds.child("idCompany").getValue(String.class);
+                    String idLowongan = ds.getKey().toString();
+                    String status = ds.child("Status").getValue(String.class);
 
-
-
-                        bookmarks.add(new Bookmark(title, perusahaan, lokasi, detail));
+                    bookmarks.add(new Bookmark(title, perusahaan, lokasi, detail, idCompany, idLowongan, status));
                     //Toast.makeText(getActivity(), ds.child("UID").getValue(String.class),Toast.LENGTH_SHORT).show();
                     //}
                 }
@@ -91,12 +92,12 @@ public class BookmarkFragment extends Fragment {
         });
 
 
-
         return v;
     }
+
     @Override
     public void onResume() {
         super.onResume();
-        ((MainActivity)getActivity()).setActionBarTitle("Bookmark");
+        ((MainActivity) getActivity()).setActionBarTitle("Bookmark");
     }
 }

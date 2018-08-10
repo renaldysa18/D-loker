@@ -10,4 +10,6 @@
     <color name="tranparant">#00ffffff</color>
     <color name="black">#000000</color>
     <color name="red">#f50303</color>
+    <color name="blue">#2d00f7</color>
+    <color name="green">#0dff00</color>
 </resources>

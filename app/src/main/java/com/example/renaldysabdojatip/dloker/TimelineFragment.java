@@ -57,7 +57,10 @@ public class TimelineFragment extends Fragment {
                     String perusahaan = ds.child("Kategori").getValue(String.class);
                     String lokasi = ds.child("Lokasi").getValue(String.class);
                     String detail = ds.child("Desc").getValue(String.class);
-                    timelines.add(new Timeline(title, perusahaan, lokasi,detail));
+                    String idCompany = ds.child("idCompany").getValue(String.class);
+                    String idLowongan = ds.getKey().toString();
+                    String status = ds.child("Status").getValue(String.class);
+                    timelines.add(new Timeline(title, perusahaan, lokasi,detail, idCompany, idLowongan, status));
                 }
 
                 adapter = new TimelineAdapter(getContext(), timelines);
