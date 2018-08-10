@@ -2,12 +2,13 @@ package com.example.renaldysabdojatip.dloker;
 
 public class Riwayat {
 
-    private String title, kategori, lokasi, detail,idCompany, idLowongan, status;
+    private String title, kategori, lokasi, detail,idCompany, idLowongan, status, pict;
 
     public Riwayat() {
     }
 
-    public Riwayat(String title, String kategori, String lokasi, String detail, String idCompany, String idLowongan, String status) {
+    public Riwayat(String title, String kategori, String lokasi, String detail,
+                   String idCompany, String idLowongan, String status, String pict) {
         this.title = title;
         this.kategori = kategori;
         this.lokasi = lokasi;
@@ -15,6 +16,15 @@ public class Riwayat {
         this.idCompany = idCompany;
         this.idLowongan = idLowongan;
         this.status = status;
+        this.pict = pict;
+    }
+
+    public String getPict() {
+        return pict;
+    }
+
+    public void setPict(String pict) {
+        this.pict = pict;
     }
 
     public String getTitle() {

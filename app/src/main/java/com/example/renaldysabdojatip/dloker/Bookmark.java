@@ -2,12 +2,13 @@ package com.example.renaldysabdojatip.dloker;
 
 public class Bookmark {
 
-    private String title, perusahaan, lokasi, detail, uid, idCompany, idLowongan, status;
+    private String title, perusahaan, lokasi, detail, uid, idCompany, idLowongan, status, pict;
 
     public Bookmark() {
     }
 
-    public Bookmark(String title, String perusahaan, String lokasi, String detail, String idCompany, String idLowongan, String status) {
+    public Bookmark(String title, String perusahaan, String lokasi, String detail,
+                    String idCompany, String idLowongan, String status, String pict) {
         this.title = title;
         this.perusahaan = perusahaan;
         this.lokasi = lokasi;
@@ -15,6 +16,15 @@ public class Bookmark {
         this.idCompany = idCompany;
         this.idLowongan = idLowongan;
         this.status = status;
+        this.pict = pict;
+    }
+
+    public String getPict() {
+        return pict;
+    }
+
+    public void setPict(String pict) {
+        this.pict = pict;
     }
 
     public String getTitle() {

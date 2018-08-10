@@ -38,7 +38,7 @@ public class BookmarkFragment extends Fragment {
     List<Bookmark> bookmarks = new ArrayList<>();
     BookmarkAdapter adapter;
 
-
+    String pictComp;
     public BookmarkFragment() {
         // Required empty public constructor
     }
@@ -60,6 +60,21 @@ public class BookmarkFragment extends Fragment {
         final String sUid = mAuth.getUid();
         final DatabaseReference mRef = mDatabase.child("Bookmark").child(sUid);
 
+        //lowongan
+        final DatabaseReference lowongan = mDatabase.child("Lowongan");
+
+        lowongan.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //String idComp = dataSnapshot.getChildren();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -75,7 +90,9 @@ public class BookmarkFragment extends Fragment {
                     String idLowongan = ds.getKey().toString();
                     String status = ds.child("Status").getValue(String.class);
 
-                    bookmarks.add(new Bookmark(title, perusahaan, lokasi, detail, idCompany, idLowongan, status));
+                    String pict = ds.child("Pict").getValue(String.class);
+
+                    bookmarks.add(new Bookmark(title, perusahaan, lokasi, detail, idCompany, idLowongan, status, pict));
                     //Toast.makeText(getActivity(), ds.child("UID").getValue(String.class),Toast.LENGTH_SHORT).show();
                     //}
                 }

@@ -76,7 +76,8 @@ public class SearchFragment extends Fragment {
                     String idCompany = ds.child("idCompany").getValue(String.class);
                     String idLowongan = ds.getKey().toString();
                     String status = ds.child("Status").getValue(String.class);
-                    searches.add(new Search(title, kategori, lokasi, detail, idCompany, idLowongan, status));
+                    String pict = ds.child("Pict").getValue(String.class);
+                    searches.add(new Search(title, kategori, lokasi, detail, idCompany, idLowongan, status, pict));
                 }
                 adapter = new SearchAdapter(getContext(), searches);
                 recyclerView.setAdapter(adapter);
@@ -135,7 +136,8 @@ public class SearchFragment extends Fragment {
                                         String idCompany = ds.child("idCompany").getValue(String.class);
                                         String idLowongan = ds.getKey().toString();
                                         String status = ds.child("Status").getValue(String.class);
-                                        searches.add(new Search(title, slokasi, kategori, detail, idCompany, idLowongan, status ));
+                                        String pict = ds.child("Pict").getValue(String.class);
+                                        searches.add(new Search(title, slokasi, kategori, detail, idCompany, idLowongan, status, pict ));
                                     }
                                 }
                                 adapter = new SearchAdapter(getContext(), searches);
@@ -164,7 +166,8 @@ public class SearchFragment extends Fragment {
                                         String idCompany = ds.child("idCompany").getValue(String.class);
                                         String idLowongan = ds.getKey().toString();
                                         String status = ds.child("Status").getValue(String.class);
-                                        searches.add(new Search(title,kategori, lokasi, detail, idCompany, idLowongan, status ));
+                                        String pict = ds.child("Pict").getValue(String.class);
+                                        searches.add(new Search(title,kategori, lokasi, detail, idCompany, idLowongan, status, pict ));
                                     }
                                 }
                                 adapter = new SearchAdapter(getContext(), searches);

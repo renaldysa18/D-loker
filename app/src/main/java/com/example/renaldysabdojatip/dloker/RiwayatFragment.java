@@ -59,6 +59,7 @@ public class RiwayatFragment extends Fragment {
         //sementara
         final DatabaseReference mRef = mDatabase.child("Lamaran");
 
+
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -75,7 +76,8 @@ public class RiwayatFragment extends Fragment {
                         String idCompany = ds.child("idCompany").getValue(String.class);
                         String idLowongan = ds.child("idLowongan").getValue(String.class);
                         String status = ds.child("Status").getValue(String.class);
-                        riwayats.add(new Riwayat(title, perusahaan, lokasi, detail, idCompany, idLowongan, status));
+                        String pict = ds.child("PictComp").getValue(String.class);
+                        riwayats.add(new Riwayat(title, perusahaan, lokasi, detail, idCompany, idLowongan, status, pict));
                     }
                 }
 

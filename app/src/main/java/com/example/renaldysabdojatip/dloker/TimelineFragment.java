@@ -2,13 +2,19 @@ package com.example.renaldysabdojatip.dloker;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,6 +35,10 @@ public class TimelineFragment extends Fragment {
     private TimelineAdapter adapter;
     private RecyclerView recyclerView;
 
+    public String SidCompany, pictCompany;
+
+    FirebaseAuth mAuth;
+    public String namaP, emailP, alamatP, pictP, keyP;
 
     public TimelineFragment() {
         // Required empty public constructor
@@ -60,9 +70,14 @@ public class TimelineFragment extends Fragment {
                     String idCompany = ds.child("idCompany").getValue(String.class);
                     String idLowongan = ds.getKey().toString();
                     String status = ds.child("Status").getValue(String.class);
-                    timelines.add(new Timeline(title, perusahaan, lokasi,detail, idCompany, idLowongan, status));
-                }
+                    String pict = ds.child("Pict").getValue(String.class);
 
+                    SidCompany = idCompany;
+
+                    timelines.add(new Timeline(title, perusahaan,
+                            lokasi,detail, idCompany, idLowongan, status, pict
+                            ));
+                }
                 adapter = new TimelineAdapter(getContext(), timelines);
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
@@ -75,6 +90,7 @@ public class TimelineFragment extends Fragment {
             }
         });
 
+        //Toast.makeText(getActivity(), idComp,Toast.LENGTH_SHORT).show();
         return v;
     }
 

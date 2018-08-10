@@ -82,7 +82,8 @@ public class RekomendasiFragment extends Fragment {
                         String idCompany = ds.child("idCompany").getValue(String.class);
                         String idLowongan = ds.getKey().toString();
                         String status = ds.child("Status").getValue(String.class);
-                        rekomendasis.add(new Rekomendasi(title,kategori, lokasi, detail, idCompany, idLowongan, status));
+                        String pict = ds.child("Pict").getValue(String.class);
+                        rekomendasis.add(new Rekomendasi(title,kategori, lokasi, detail, idCompany, idLowongan, status, pict));
                     }
                 }
 

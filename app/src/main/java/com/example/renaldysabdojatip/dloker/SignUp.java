@@ -106,7 +106,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
 
         Snull = "-";
         Spelamar = "Pelamar";
-        namaCV = "-";
+        namaCV = "CV Belum Tersedia";
         Sstatus = "Menunggu";
         Spict = "https://firebasestorage.googleapis.com/v0/b/dloker-aac16.appspot.com/o/images%2Favatar1.png?alt=media&token=5339f319-38c2-400d-9ef3-a40d0a891dd7";
         Scv = "CV Belum Tersedia";

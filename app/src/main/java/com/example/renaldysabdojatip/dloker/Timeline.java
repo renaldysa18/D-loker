@@ -2,13 +2,19 @@ package com.example.renaldysabdojatip.dloker;
 
 public class Timeline {
 
-    private String title, perusahaan, lokasi, detail, idCompany, idLowongan, status;
+    private String title, perusahaan, lokasi,
+            detail, idCompany, idLowongan, status, pict;
+    ;
+
+
 
     public Timeline(){
 
     }
 
-    public Timeline(String title, String perusahaan, String lokasi, String detail, String idCompany, String idLowongan, String status) {
+    public Timeline(String title, String perusahaan, String lokasi,
+                    String detail, String idCompany, String idLowongan,
+                    String status, String pict) {
         this.title = title;
         this.perusahaan = perusahaan;
         this.lokasi = lokasi;
@@ -16,6 +22,15 @@ public class Timeline {
         this.idCompany = idCompany;
         this.idLowongan = idLowongan;
         this.status = status;
+        this.pict = pict;
+    }
+
+    public String getPict() {
+        return pict;
+    }
+
+    public void setPict(String pict) {
+        this.pict = pict;
     }
 
     public String getTitle() {

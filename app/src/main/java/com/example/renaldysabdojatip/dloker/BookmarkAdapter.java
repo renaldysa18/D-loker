@@ -9,8 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -41,10 +43,11 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
         public CardView card;
         public TextView tvTitle, tvPerusahaan, tvLokasi;
         public Button btn_del;
-
+        public ImageView img;
 
         public BookmarkViewHolder(View itemView) {
             super(itemView);
+            img = (ImageView)itemView.findViewById(R.id.imageView_bookmark);
             card = (CardView) itemView.findViewById(R.id.cardview_bookmark);
             tvTitle = (TextView) itemView.findViewById(R.id.textViewTitle_bookmark);
             tvLokasi = (TextView) itemView.findViewById(R.id.textViewLokasi_bookmark);
@@ -81,7 +84,9 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
         holder.tvTitle.setText(bm.getTitle());
         holder.tvPerusahaan.setText(bm.getPerusahaan());
         holder.tvLokasi.setText(bm.getLokasi());
-
+        Glide.with(mCtx)
+                .load(bm.getPict())
+                .into(holder.img);
 
         final String title = bm.getTitle();
         final String perusahaan = bm.getPerusahaan();
@@ -90,7 +95,7 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
         final String company = bm.getIdCompany();
         final String lowongan = bm.getIdLowongan();
         final String status = bm.getStatus();
-
+        final String pict = bm.getPict();
 
         holder.btn_del.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,6 +127,7 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
                 intent.putExtra("idCompany", company);
                 intent.putExtra("idLowongan", lowongan);
                 intent.putExtra("Status", status);
+                intent.putExtra("Pict", pict);
                 v.getContext().startActivity(intent);
 
                 //Toast.makeText(v.getContext(), String.valueOf(position), Toast.LENGTH_SHORT).show();

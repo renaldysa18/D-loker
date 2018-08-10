@@ -8,7 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -37,6 +40,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         holder.title.setText(sr.getTitle());
         holder.kategori.setText(sr.getKategori());
         holder.lokasi.setText(sr.getLokasi());
+        Glide.with(mCtx)
+                .load(sr.getPict())
+                .into(holder.img);
 
         final String title = sr.getTitle();
         final String lokasi = sr.getLokasi();
@@ -45,6 +51,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         final String company = sr.getIdCompany();
         final String lowongan = sr.getIdLowongan();
         final String status = sr.getStatus();
+        final String pict = sr.getPict();
 
         holder.mCard.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,7 +64,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
                 intent.putExtra("idCompany", company);
                 intent.putExtra("idLowongan", lowongan);
                 intent.putExtra("Status", status);
-                v.getContext().startActivity(intent);
+                intent.putExtra("Pict", pict);
+                //v.getContext().startActivity(intent);
                 v.getContext().startActivity(intent);
             }
         });
@@ -72,9 +80,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
 
         TextView title, lokasi, kategori;
         CardView mCard;
+        ImageView img;
 
         public SearchViewHolder(View itemView) {
             super(itemView);
+
+            img = (ImageView)itemView.findViewById(R.id.imageView_search);
             mCard = (CardView)itemView.findViewById(R.id.cardview_search);
             title = (TextView)itemView.findViewById(R.id.textViewTitle_search);
             lokasi = (TextView)itemView.findViewById(R.id.textViewLokasi_search);

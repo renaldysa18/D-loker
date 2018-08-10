@@ -119,7 +119,7 @@ public class EditProfile extends AppCompatActivity {
 
         final String[] gender_array = {"Pria", "Wanita"};
 
-        String[] disabilitas_array = {"Tuna Rungu", "Tuna Wicara", "Tuna Laras", "Tuna Daksa", "Tuna Grahita" };
+        String[] disabilitas_array = {"Tuna Rungu", "Tuna Wicara", "Tuna Laras", "Tuna Daksa", "Tuna Grahita"};
 
         final String[] bidang_kerja = {"Sosial", "Kuliner", "Teknologi", "Busana dan Tata Rias", "Keuangan"};
 
@@ -399,6 +399,8 @@ public class EditProfile extends AppCompatActivity {
 
                         }
                     });
+
+           // DatabaseReference lamaran =FirebaseDatabase.getInstance().getReference().child("Lamaran")
 
         }
     }

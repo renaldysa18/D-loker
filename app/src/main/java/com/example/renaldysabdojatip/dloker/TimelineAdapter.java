@@ -2,13 +2,17 @@ package com.example.renaldysabdojatip.dloker;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -38,6 +42,9 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.Timeli
         holder.tvtitle.setText(tm.getTitle());
         holder.tvperusahaan.setText(tm.getPerusahaan());
         holder.tvlokasi.setText(tm.getLokasi());
+        Glide.with(mCtx)
+                .load(tm.getPict())
+                .into(holder.img);
 
         final String title = tm.getTitle();
         final String perusahaan = tm.getPerusahaan();
@@ -46,6 +53,7 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.Timeli
         final String company = tm.getIdCompany();
         final String lowongan = tm.getIdLowongan();
         final String status = tm.getStatus();
+        final String pict = tm.getPict();
 
         holder.mCardview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +66,7 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.Timeli
                 intent.putExtra("idCompany", company);
                 intent.putExtra("idLowongan", lowongan);
                 intent.putExtra("Status", status);
+                intent.putExtra("Pict", pict);
                 v.getContext().startActivity(intent);
 
                 //Toast.makeText(v.getContext(), String.valueOf(position), Toast.LENGTH_SHORT).show();
@@ -73,8 +82,13 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.Timeli
     public static class TimelineViewHolder extends RecyclerView.ViewHolder{
         public CardView mCardview;
         public TextView tvtitle, tvperusahaan, tvlokasi;
+        public ImageView img;
+
+
         public TimelineViewHolder(View itemView) {
             super(itemView);
+
+            img = (ImageView)itemView.findViewById(R.id.imageView_timeline);
             mCardview = (CardView)itemView.findViewById(R.id.cardview_timeline);
             tvlokasi = (TextView)itemView.findViewById(R.id.textViewLokasi_timeline);
             tvperusahaan = (TextView)itemView.findViewById(R.id.textViewPerusahaan_timeline);
