@@ -198,5 +198,7 @@ public class TimelineDetail extends AppCompatActivity {
 
             }
         });
+
+        //Toast.makeText(getApplicationContext(), cv, Toast.LENGTH_SHORT).show();
     }
 }

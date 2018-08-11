@@ -91,7 +91,7 @@ public class RekomendasiFragment extends Fragment {
                     }
                 }
 
-                Toast.makeText(getActivity(), bidangKerja, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), bidangKerja, Toast.LENGTH_SHORT).show();
 
                 adapter = new RekomendasiAdapter(getContext(), rekomendasis);
                 recyclerView.setAdapter(adapter);
