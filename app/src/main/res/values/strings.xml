@@ -35,4 +35,19 @@
     <string name="edit_data_diri">Edit Data Diri</string>
     <string name="simpan">Simpan</string>
     <string name="keluar">Keluar</string>
+    <string name="kirim_lamaran">Kirim Lamaran</string>
+    <string name="tambah_bookmark">Tambah Bookmark</string>
+    <string name="Detail_pekerjaan">Detail Pekerjaan</string>
+    <string name="deskripsi">Deskripsi</string>
+    <string name="delete">Delete</string>
+    <string name="cari">Cari</string>
+    <string name="berdasarkan">Pencarian Berdasarkan</string>
+    <string name="photo">Photo</string>
+    <string name="gallery">Gallery</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="pilih_cv">Pilih CV</string>
+    <string name="judul_cv">Judul CV</string>
+    <string name="nama_perusahaan">Nama Perusahaan</string>
+    <string name="email_perusahaan">Email Perusahaan</string>
+    <string name="alamat_perusahaan">Alamat Perusahaan</string>
 </resources>

@@ -37,6 +37,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseDatabase mDatabase;
 
+    public String Spelamar = "Pelamar";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,14 +98,20 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
 
     private void keLogin() {
         Intent intent = new Intent(SignUp.this, Login.class);
+        intent.putExtra("accType", Spelamar);
         startActivity(intent);
     }
 
     private void signupCheck() {
 
-        final String Snama, Semail, Snotelp, Spass, Sre_pass, Snull;
+        final String Snama, Semail, Snotelp, Spass, Sre_pass, Snull, Spict, Scv, Sstatus, namaCV;
 
         Snull = "-";
+
+        namaCV = "CV Belum Tersedia";
+        Sstatus = "Menunggu";
+        Spict = "https://firebasestorage.googleapis.com/v0/b/dloker-aac16.appspot.com/o/images%2Favatar1.png?alt=media&token=5339f319-38c2-400d-9ef3-a40d0a891dd7";
+        Scv = "CV Belum Tersedia";
 
         Snama = nama.getText().toString().trim();
         Semail = email.getText().toString().trim();
@@ -217,6 +224,11 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
                     newPost.put("BidangKerja",Snull);
                     newPost.put("TempatTanggalLahir", Snull);
                     newPost.put("Disabilitas", Snull);
+                    newPost.put("Pict", Spict);
+                    newPost.put("CV", Scv);
+                    newPost.put("Status", Sstatus);
+                    newPost.put("accType", Spelamar);
+                    newPost.put("namaCV", namaCV);
 
                     mRef.setValue(newPost);
 

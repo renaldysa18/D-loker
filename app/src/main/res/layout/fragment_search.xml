@@ -1,14 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SearchFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:background="@color/backgroudn"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="search" />
+        android:layout_height="wrap_content">
 
-</FrameLayout>
+        <TextView
+            android:layout_marginTop="@dimen/to_title"
+            android:layout_marginLeft="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/berdasarkan"
+            android:textAppearance="?android:textAppearanceSmall" />
+
+        <Spinner
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/to_title"
+            android:background="@color/white"
+            android:id="@+id/dropdown_cari"
+            android:spinnerMode="dropdown"
+            android:layout_width="350dp"
+            android:layout_height="@dimen/edit_height"/>
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:layout_marginBottom="@dimen/top"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:background="@color/white"
+                android:hint="@string/cari"
+                android:id="@+id/editText_search"
+                android:layout_width="@dimen/edit_width"
+                android:layout_height="@dimen/edit_height" />
+
+            <Button
+                android:background="@drawable/ic_search_black_24dp"
+                android:id="@+id/btn_cari"
+                android:layout_width="50dp"
+                android:layout_height="@dimen/edit_height" />
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_cari"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

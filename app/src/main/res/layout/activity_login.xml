@@ -19,7 +19,8 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:background="@color/white"
+                android:src="@drawable/logo218x107"
+                android:background="@color/tranparant"
                 android:layout_width="@dimen/logo_width"
                 android:layout_height="@dimen/logo_width" />
 

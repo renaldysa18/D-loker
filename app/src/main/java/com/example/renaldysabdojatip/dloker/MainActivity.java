@@ -9,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,15 +20,25 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.sql.Time;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     private static final String TAG = "MAIN_ACTIVITY";
     private BottomNavigationView bottomNavigationView;
@@ -44,13 +55,19 @@ public class MainActivity extends AppCompatActivity
     private TimelineFragment tf;
     private RekomendasiFragment rekf;
 
+    //navigation
+    TextView tnama, temail;
+    CircleImageView pict;
+    String snama, semail, url;
+
+    View headerLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.main_nav);
 
@@ -99,6 +116,39 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
+        headerLayout = navigationView.getHeaderView(0);
+
+        tnama = (TextView)headerLayout.findViewById(R.id.nama_navigation);
+        temail = (TextView)headerLayout.findViewById(R.id.email_navigation);
+
+        pict = (CircleImageView) headerLayout.findViewById(R.id.imageView_navigation);
+        //nama.setText("renal");
+
+        // set nama dan email header
+        String uid = mAuth.getUid();
+
+        DatabaseReference user = FirebaseDatabase.getInstance().getReference().child("Users").child(uid);
+
+        user.addValueEventListener(new ValueEventListener() {
+            @Override  
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                snama = dataSnapshot.child("Nama").getValue(String.class);
+                tnama.setText(snama);
+                semail =dataSnapshot.child("Email").getValue(String.class);
+                temail.setText(semail);
+                url = dataSnapshot.child("Pict").getValue(String.class);
+                Glide.with(MainActivity.this)
+                        .load(url)
+                        .into(pict);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -125,6 +175,8 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+
+        bottomNavigationView.setSelectedItemId(R.id.bottom_timeline);
     }
 
     @Override

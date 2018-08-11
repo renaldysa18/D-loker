@@ -4,28 +4,60 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EditProfileFragment">
+    tools:context=".EditProfile">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toobar_edit"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.Toolbar>
 
     <ScrollView
+        android:layout_below="@id/toobar_edit"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:gravity="center"
             android:orientation="vertical">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_marginTop="@dimen/top"
-                android:id="@+id/edit_profile_pict"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:src="@drawable/avatar"
-                app:civ_border_width="0dp" />
+            <RelativeLayout
+                android:paddingBottom="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/edit_profile_pict"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/top"
+                    android:src="@drawable/avatar"
+                    app:civ_border_width="0dp" />
+
+                <ImageButton
+                    android:id="@+id/btn_edit_pict"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignEnd="@+id/edit_profile_pict"
+                    android:layout_alignParentBottom="true"
+                    android:src="@drawable/ic_photo_camera_black_24dp" />
+
+            </RelativeLayout>
+
+           <!-- <ImageView
+                android:id="@+id/coba"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />-->
 
             <TextView
+                android:id="@+id/judul_edit"
                 android:layout_width="@dimen/edit_width"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/top"
@@ -34,35 +66,35 @@
                 android:textColor="@color/darkBlur" />
 
             <TextView
-                android:layout_marginTop="@dimen/top"
-                android:textAppearance="?android:textAppearanceSmall"
-                android:text="@string/nama"
-                android:textColor="@color/darkBlur"
                 android:layout_width="@dimen/edit_width"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/top"
+                android:text="@string/nama"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@color/darkBlur" />
 
             <EditText
-                android:layout_marginTop="@dimen/to_title"
                 android:id="@+id/edit_profile_nama"
                 android:layout_width="@dimen/edit_width"
                 android:layout_height="@dimen/edit_height"
+                android:layout_marginTop="@dimen/to_title"
                 android:text="@string/nama"
                 android:textAppearance="?android:textAppearanceMedium" />
 
             <TextView
-                android:textColor="@color/darkBlur"
+                android:layout_width="@dimen/edit_width"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/top"
                 android:text="@string/email"
                 android:textAppearance="?android:textAppearanceSmall"
-                android:layout_marginTop="@dimen/top"
-                android:layout_width="@dimen/edit_width"
-                android:layout_height="wrap_content" />
+                android:textColor="@color/darkBlur" />
 
             <EditText
-                android:inputType="textEmailAddress"
                 android:id="@+id/edit_profile_email"
                 android:layout_width="@dimen/edit_width"
                 android:layout_height="@dimen/edit_height"
                 android:layout_marginTop="@dimen/to_title"
+                android:inputType="textEmailAddress"
                 android:text="@string/email"
                 android:textAppearance="?android:textAppearanceMedium" />
 
@@ -83,11 +115,11 @@
                 android:textAppearance="?android:textAppearanceMedium" />-->
 
             <Spinner
-                android:layout_marginTop="@dimen/to_title"
-                android:spinnerMode="dropdown"
                 android:id="@+id/edit_profile_gender"
                 android:layout_width="@dimen/edit_width"
-                android:layout_height="@dimen/edit_height"/>
+                android:layout_height="@dimen/edit_height"
+                android:layout_marginTop="@dimen/to_title"
+                android:spinnerMode="dropdown" />
 
             <TextView
                 android:layout_width="@dimen/edit_width"
@@ -130,11 +162,11 @@
                 android:textColor="@color/darkBlur" />
 
             <EditText
-                android:inputType="number"
                 android:id="@+id/edit_profile_notelp"
                 android:layout_width="@dimen/edit_width"
                 android:layout_height="@dimen/edit_height"
                 android:layout_marginTop="@dimen/to_title"
+                android:inputType="number"
                 android:text="@string/notelp"
                 android:textAppearance="?android:textAppearanceMedium" />
 
@@ -146,13 +178,13 @@
                 android:textAppearance="?android:textAppearanceSmall"
                 android:textColor="@color/darkBlur" />
 
-            <EditText
+
+            <Spinner
                 android:id="@+id/edit_profile_bidang_kerja"
                 android:layout_width="@dimen/edit_width"
                 android:layout_height="@dimen/edit_height"
                 android:layout_marginTop="@dimen/to_title"
-                android:text="@string/bidang_kerja"
-                android:textAppearance="?android:textAppearanceMedium" />
+                android:spinnerMode="dropdown" />
 
             <TextView
                 android:layout_width="@dimen/edit_width"
@@ -171,29 +203,29 @@
                 android:textAppearance="?android:textAppearanceMedium" />-->
 
             <Spinner
-                android:layout_marginTop="@dimen/to_title"
-                android:spinnerMode="dropdown"
                 android:id="@+id/edit_profile_disabilitas"
                 android:layout_width="@dimen/edit_width"
-                android:layout_height="@dimen/edit_height"/>
+                android:layout_height="@dimen/edit_height"
+                android:layout_marginTop="@dimen/to_title"
+                android:spinnerMode="dropdown" />
 
             <ProgressBar
-                android:layout_marginTop="@dimen/top"
-                android:visibility="gone"
                 android:id="@+id/pb_edit"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/top"
+                android:visibility="gone" />
 
             <Button
-                android:layout_marginBottom="@dimen/top"
-                android:textAppearance="?android:textAppearanceLarge"
-                android:text="@string/simpan"
-                android:textColor="@color/darkBlur"
-                android:layout_marginTop="@dimen/top"
-                android:background="@drawable/button_border_blue"
                 android:id="@+id/btn_edit_profile"
                 android:layout_width="@dimen/edit_width"
-                android:layout_height="@dimen/edit_height" />
+                android:layout_height="@dimen/edit_height"
+                android:layout_marginBottom="@dimen/top"
+                android:layout_marginTop="@dimen/top"
+                android:background="@drawable/button_border_blue"
+                android:text="@string/simpan"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:textColor="@color/darkBlur" />
 
         </LinearLayout>
 
