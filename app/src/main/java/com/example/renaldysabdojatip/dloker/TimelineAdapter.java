@@ -55,6 +55,11 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.Timeli
         final String status = tm.getStatus();
         final String pict = tm.getPict();
 
+        //nama, alamat, email perusahaan
+        final String nama = tm.getNama();
+        final String email = tm.getEmail();
+        final String alamat = tm.getAlmat();
+
         holder.mCardview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,6 +72,12 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.Timeli
                 intent.putExtra("idLowongan", lowongan);
                 intent.putExtra("Status", status);
                 intent.putExtra("Pict", pict);
+
+                //nama, alamat, email
+                intent.putExtra("Nama", nama);
+                intent.putExtra("Email", email);
+                intent.putExtra("Alamat" , alamat);
+
                 v.getContext().startActivity(intent);
 
                 //Toast.makeText(v.getContext(), String.valueOf(position), Toast.LENGTH_SHORT).show();

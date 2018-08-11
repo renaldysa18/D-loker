@@ -3,7 +3,9 @@ package com.example.renaldysabdojatip.dloker;
 public class Timeline {
 
     private String title, perusahaan, lokasi,
-            detail, idCompany, idLowongan, status, pict;
+            detail, idCompany, idLowongan, status, pict,
+            nama, almat, email
+    ;
     ;
 
 
@@ -12,9 +14,7 @@ public class Timeline {
 
     }
 
-    public Timeline(String title, String perusahaan, String lokasi,
-                    String detail, String idCompany, String idLowongan,
-                    String status, String pict) {
+    public Timeline(String title, String perusahaan, String lokasi, String detail, String idCompany, String idLowongan, String status, String pict, String nama, String almat, String email) {
         this.title = title;
         this.perusahaan = perusahaan;
         this.lokasi = lokasi;
@@ -23,14 +23,9 @@ public class Timeline {
         this.idLowongan = idLowongan;
         this.status = status;
         this.pict = pict;
-    }
-
-    public String getPict() {
-        return pict;
-    }
-
-    public void setPict(String pict) {
-        this.pict = pict;
+        this.nama = nama;
+        this.almat = almat;
+        this.email = email;
     }
 
     public String getTitle() {
@@ -87,6 +82,38 @@ public class Timeline {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getPict() {
+        return pict;
+    }
+
+    public void setPict(String pict) {
+        this.pict = pict;
+    }
+
+    public String getNama() {
+        return nama;
+    }
+
+    public void setNama(String nama) {
+        this.nama = nama;
+    }
+
+    public String getAlmat() {
+        return almat;
+    }
+
+    public void setAlmat(String almat) {
+        this.almat = almat;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
 

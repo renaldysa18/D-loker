@@ -175,6 +175,8 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+
+        bottomNavigationView.setSelectedItemId(R.id.bottom_timeline);
     }
 
     @Override

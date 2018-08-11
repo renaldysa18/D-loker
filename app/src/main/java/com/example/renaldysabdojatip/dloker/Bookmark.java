@@ -2,13 +2,12 @@ package com.example.renaldysabdojatip.dloker;
 
 public class Bookmark {
 
-    private String title, perusahaan, lokasi, detail, uid, idCompany, idLowongan, status, pict;
+    private String title, perusahaan, lokasi, detail, uid, idCompany, idLowongan, status, pict, nama, alamat, email;
 
     public Bookmark() {
     }
 
-    public Bookmark(String title, String perusahaan, String lokasi, String detail,
-                    String idCompany, String idLowongan, String status, String pict) {
+    public Bookmark(String title, String perusahaan, String lokasi, String detail, String idCompany, String idLowongan, String status, String pict, String nama, String alamat, String email) {
         this.title = title;
         this.perusahaan = perusahaan;
         this.lokasi = lokasi;
@@ -17,14 +16,9 @@ public class Bookmark {
         this.idLowongan = idLowongan;
         this.status = status;
         this.pict = pict;
-    }
-
-    public String getPict() {
-        return pict;
-    }
-
-    public void setPict(String pict) {
-        this.pict = pict;
+        this.nama = nama;
+        this.alamat = alamat;
+        this.email = email;
     }
 
     public String getTitle() {
@@ -89,5 +83,37 @@ public class Bookmark {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getPict() {
+        return pict;
+    }
+
+    public void setPict(String pict) {
+        this.pict = pict;
+    }
+
+    public String getNama() {
+        return nama;
+    }
+
+    public void setNama(String nama) {
+        this.nama = nama;
+    }
+
+    public String getAlamat() {
+        return alamat;
+    }
+
+    public void setAlamat(String alamat) {
+        this.alamat = alamat;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

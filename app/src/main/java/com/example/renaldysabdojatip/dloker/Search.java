@@ -1,13 +1,12 @@
 package com.example.renaldysabdojatip.dloker;
 
 public class Search {
-    private String title, kategori, lokasi, detail,idCompany, idLowongan, status, pict;
+    private String title, kategori, lokasi, detail,idCompany, idLowongan, status, pict, nama, alamat, email;
     public Search() {
 
     }
 
-    public Search(String title, String kategori, String lokasi, String detail,
-                  String idCompany, String idLowongan, String status, String pict) {
+    public Search(String title, String kategori, String lokasi, String detail, String idCompany, String idLowongan, String status, String pict, String nama, String alamat, String email) {
         this.title = title;
         this.kategori = kategori;
         this.lokasi = lokasi;
@@ -16,14 +15,9 @@ public class Search {
         this.idLowongan = idLowongan;
         this.status = status;
         this.pict = pict;
-    }
-
-    public String getPict() {
-        return pict;
-    }
-
-    public void setPict(String pict) {
-        this.pict = pict;
+        this.nama = nama;
+        this.alamat = alamat;
+        this.email = email;
     }
 
     public String getTitle() {
@@ -80,5 +74,37 @@ public class Search {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getPict() {
+        return pict;
+    }
+
+    public void setPict(String pict) {
+        this.pict = pict;
+    }
+
+    public String getNama() {
+        return nama;
+    }
+
+    public void setNama(String nama) {
+        this.nama = nama;
+    }
+
+    public String getAlamat() {
+        return alamat;
+    }
+
+    public void setAlamat(String alamat) {
+        this.alamat = alamat;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

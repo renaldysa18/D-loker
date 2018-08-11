@@ -53,6 +53,10 @@ public class RekomendasiAdapter extends RecyclerView.Adapter<RekomendasiAdapter.
         final String lowongan = rm.getIdLowongan();
         final String status = rm.getStatus();
         final String pict = rm.getPict();
+        final String nama = rm.getNama();
+        final String email = rm.getEmail();
+        final String alamat = rm.getAlamat();
+
 
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,8 +70,12 @@ public class RekomendasiAdapter extends RecyclerView.Adapter<RekomendasiAdapter.
                 intent.putExtra("idLowongan", lowongan);
                 intent.putExtra("Status", status);
                 intent.putExtra("Pict", pict);
+                //nama, alamat, email
+                intent.putExtra("Nama", nama);
+                intent.putExtra("Email", email);
+                intent.putExtra("Alamat" , alamat);
                 v.getContext().startActivity(intent);
-
+                
                 //Toast.makeText(v.getContext(), String.valueOf(position), Toast.LENGTH_SHORT).show();
             }
         });

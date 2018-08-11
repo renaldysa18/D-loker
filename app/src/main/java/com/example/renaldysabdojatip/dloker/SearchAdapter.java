@@ -53,6 +53,11 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         final String status = sr.getStatus();
         final String pict = sr.getPict();
 
+        //nama, alamat, email perusahaan
+        final String nama = sr.getNama();
+        final String email = sr.getEmail();
+        final String alamat = sr.getAlamat();
+
         holder.mCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,6 +70,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
                 intent.putExtra("idLowongan", lowongan);
                 intent.putExtra("Status", status);
                 intent.putExtra("Pict", pict);
+                //nama, alamat, email
+                intent.putExtra("Nama", nama);
+                intent.putExtra("Email", email);
+                intent.putExtra("Alamat" , alamat);
                 //v.getContext().startActivity(intent);
                 v.getContext().startActivity(intent);
             }

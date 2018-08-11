@@ -77,7 +77,12 @@ public class SearchFragment extends Fragment {
                     String idLowongan = ds.getKey().toString();
                     String status = ds.child("Status").getValue(String.class);
                     String pict = ds.child("Pict").getValue(String.class);
-                    searches.add(new Search(title, kategori, lokasi, detail, idCompany, idLowongan, status, pict));
+
+                    //alamat, email, nama perushaan
+                    String alamat = ds.child("Alamat").getValue(String.class);
+                    String nama = ds.child("Nama").getValue(String.class);
+                    String email = ds.child("Email").getValue(String.class);
+                    searches.add(new Search(title, kategori, lokasi, detail, idCompany, idLowongan, status, pict, nama, alamat, email));
                 }
                 adapter = new SearchAdapter(getContext(), searches);
                 recyclerView.setAdapter(adapter);
@@ -136,8 +141,11 @@ public class SearchFragment extends Fragment {
                                         String idCompany = ds.child("idCompany").getValue(String.class);
                                         String idLowongan = ds.getKey().toString();
                                         String status = ds.child("Status").getValue(String.class);
-                                        String pict = ds.child("Pict").getValue(String.class);
-                                        searches.add(new Search(title, slokasi, kategori, detail, idCompany, idLowongan, status, pict ));
+                                        String pict = ds.child("Pict").getValue(String.class);//alamat, email, nama perushaan
+                                        String alamat = ds.child("Alamat").getValue(String.class);
+                                        String nama = ds.child("Nama").getValue(String.class);
+                                        String email = ds.child("Email").getValue(String.class);
+                                        searches.add(new Search(title, kategori, slokasi, detail, idCompany, idLowongan, status, pict, nama, alamat, email));
                                     }
                                 }
                                 adapter = new SearchAdapter(getContext(), searches);
@@ -166,8 +174,11 @@ public class SearchFragment extends Fragment {
                                         String idCompany = ds.child("idCompany").getValue(String.class);
                                         String idLowongan = ds.getKey().toString();
                                         String status = ds.child("Status").getValue(String.class);
-                                        String pict = ds.child("Pict").getValue(String.class);
-                                        searches.add(new Search(title,kategori, lokasi, detail, idCompany, idLowongan, status, pict ));
+                                        String pict = ds.child("Pict").getValue(String.class);//alamat, email, nama perushaan
+                                        String alamat = ds.child("Alamat").getValue(String.class);
+                                        String nama = ds.child("Nama").getValue(String.class);
+                                        String email = ds.child("Email").getValue(String.class);
+                                        searches.add(new Search(title, kategori, lokasi, detail, idCompany, idLowongan, status, pict, nama, alamat, email));
                                     }
                                 }
                                 adapter = new SearchAdapter(getContext(), searches);

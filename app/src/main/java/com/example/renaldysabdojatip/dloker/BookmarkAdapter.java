@@ -23,7 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.BookmarkViewHolder>  {
+public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.BookmarkViewHolder> {
 
     FirebaseAuth mAuth;
     DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -47,19 +47,19 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
 
         public BookmarkViewHolder(View itemView) {
             super(itemView);
-            img = (ImageView)itemView.findViewById(R.id.imageView_bookmark);
+            img = (ImageView) itemView.findViewById(R.id.imageView_bookmark);
             card = (CardView) itemView.findViewById(R.id.cardview_bookmark);
             tvTitle = (TextView) itemView.findViewById(R.id.textViewTitle_bookmark);
             tvLokasi = (TextView) itemView.findViewById(R.id.textViewLokasi_bookmark);
             tvPerusahaan = (TextView) itemView.findViewById(R.id.textViewPerusahaan_bookmark);
 
-            btn_del = (Button)itemView.findViewById(R.id.btn_delete_bookmark);
+            btn_del = (Button) itemView.findViewById(R.id.btn_delete_bookmark);
 
         }
 
     }
 
-    public void remove(int position){
+    public void remove(int position) {
         bookmarks.get(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, bookmarks.size());
@@ -96,22 +96,25 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
         final String lowongan = bm.getIdLowongan();
         final String status = bm.getStatus();
         final String pict = bm.getPict();
-
+//nama, alamat, email perusahaan
+        final String nama = bm.getNama();
+        final String email = bm.getEmail();
+        final String alamat = bm.getAlamat();
         holder.btn_del.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-             mRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    dataSnapshot.getRef().removeValue();
-                }
+                mRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        dataSnapshot.getRef().removeValue();
+                    }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
-                }
-            });
+                    }
+                });
                 remove(position);
             }
         });
@@ -128,6 +131,10 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
                 intent.putExtra("idLowongan", lowongan);
                 intent.putExtra("Status", status);
                 intent.putExtra("Pict", pict);
+                //nama, alamat, email
+                intent.putExtra("Nama", nama);
+                intent.putExtra("Email", email);
+                intent.putExtra("Alamat", alamat);
                 v.getContext().startActivity(intent);
 
                 //Toast.makeText(v.getContext(), String.valueOf(position), Toast.LENGTH_SHORT).show();
@@ -140,8 +147,6 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
     public int getItemCount() {
         return bookmarks.size();
     }
-
-
 
 
 }

@@ -75,9 +75,12 @@ public class RiwayatFragment extends Fragment {
                         String detail = ds.child("DetailPekerjaan").getValue(String.class);
                         String idCompany = ds.child("idCompany").getValue(String.class);
                         String idLowongan = ds.child("idLowongan").getValue(String.class);
-                        String status = ds.child("Status").getValue(String.class);
+                        String status = ds.child("statusLmr").getValue(String.class);
                         String pict = ds.child("PictComp").getValue(String.class);
-                        riwayats.add(new Riwayat(title, perusahaan, lokasi, detail, idCompany, idLowongan, status, pict));
+                        String nama = ds.child("Nama").getValue(String.class);
+                        String email = ds.child("Email").getValue(String.class);
+                        String alamat = ds.child("Alamat").getValue(String.class);
+                        riwayats.add(new Riwayat(title, perusahaan, lokasi, detail, idCompany, idLowongan, status, pict, nama, email, alamat));
                     }
                 }
 

@@ -47,4 +47,7 @@
     <string name="edit_profile">Edit Profile</string>
     <string name="pilih_cv">Pilih CV</string>
     <string name="judul_cv">Judul CV</string>
+    <string name="nama_perusahaan">Nama Perusahaan</string>
+    <string name="email_perusahaan">Email Perusahaan</string>
+    <string name="alamat_perusahaan">Alamat Perusahaan</string>
 </resources>

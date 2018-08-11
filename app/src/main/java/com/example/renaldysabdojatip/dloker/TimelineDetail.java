@@ -29,10 +29,12 @@ public class TimelineDetail extends AppCompatActivity {
     List<Timeline> timelines = new ArrayList<>();
     TimelineAdapter adapter;
 
-    TextView tvTitle, tvPerusahaan, tvLokasi, tvDetail;
+    TextView tvTitle, tvPerusahaan, tvLokasi, tvDetail, tvNama, tvAlamat, tvEmail;
     public String sTitle, sPerusahaan, sLokasi, sDetail,
             sCompany, sLowongan, sStatus, idLamaran,
-            statusLmr, cv, namaCV, pict, profileImage;
+            statusLmr, cv, namaCV, pict, profileImage,
+            nama, alamat, email
+    ;
 
 
     DatabaseReference mRef, lamaran,user, bookmark;
@@ -78,12 +80,22 @@ public class TimelineDetail extends AppCompatActivity {
             sLowongan = extras.getString("idLowongan");
             sStatus = extras.getString("Status");
             pict = extras.getString("Pict");
+            nama = extras.getString("Nama");
+            email = extras.getString("Email");
+            alamat = extras.getString("Alamat");
         }
+
         tvTitle = (TextView)findViewById(R.id.textViewTitle_timeline);
         tvLokasi = (TextView)findViewById(R.id.textViewLokasi_timeline_detail);
         tvPerusahaan = (TextView)findViewById(R.id.textViewPerusahaan_timeline);
         tvDetail = (TextView)findViewById(R.id.deksripsi_detail);
+        tvEmail = (TextView)findViewById(R.id.email_perusahaan);
+        tvNama = (TextView)findViewById(R.id.nama_perusahaan);
+        tvAlamat = (TextView)findViewById(R.id.alamat_perusahaan);
 
+        tvEmail.setText(email);
+        tvAlamat.setText(alamat);
+        tvNama.setText(nama);
         tvTitle.setText(sTitle);
         tvPerusahaan.setText(sPerusahaan);
         tvLokasi.setText(sLokasi);
@@ -124,6 +136,10 @@ public class TimelineDetail extends AppCompatActivity {
                 post.put("idLowongan", sLowongan);
                 post.put("Status", sStatus);
                 post.put("Pict", pict);
+                post.put("Nama", nama);
+                post.put("Email", email);
+                post.put("Alamat", alamat);
+
                 mRef.setValue(post);
 
                 Toast.makeText(getApplicationContext(), "Ditambahkan", Toast.LENGTH_SHORT).show();
@@ -168,12 +184,14 @@ public class TimelineDetail extends AppCompatActivity {
                 post.put("DetailPekerjaan", sDetail);
                 post.put("idCompany", sCompany);
                 post.put("idLowongan", sLowongan);
-                post.put("Status", sStatus);
                 post.put("idLamaran", idLamaran);
                 post.put("statusLmr", statusLmr);
                 post.put("CV", cv);
                 post.put("PelamarPict", profileImage);
                 post.put("PictComp", pict);
+                post.put("Nama", nama);
+                post.put("Email", email);
+                post.put("Alamat", alamat);
 
                 lamaran.setValue(post);
                 Toast.makeText(getApplicationContext(), "Mengirim Lamaran", Toast.LENGTH_SHORT).show();

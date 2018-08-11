@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -62,15 +63,15 @@ public class RiwayatAdapter extends RecyclerView.Adapter<RiwayatAdapter.RiwayatV
         holder.title.setText(ry.getTitle());
         holder.lokasi.setText(ry.getLokasi());
         holder.kategori.setText(ry.getKategori());
-        if (ry.getStatus().equalsIgnoreCase("Menunggu")) {
+        if (ry.getStatus().equalsIgnoreCase("wait")) {
             holder.status.setText(ry.getStatus());
-            holder.status.setTextColor(R.color.blue);
-        } else if (ry.getStatus().equalsIgnoreCase("Diterima")) {
+            holder.status.setTextColor(ContextCompat.getColor(mCtx, R.color.blue));
+        } else if (ry.getStatus().equalsIgnoreCase("accepted")) {
             holder.status.setText(ry.getStatus());
-            holder.status.setTextColor(R.color.green);
-        } else if (ry.getStatus().equalsIgnoreCase("DiTolak")) {
+            holder.status.setTextColor(ContextCompat.getColor(mCtx, R.color.green));
+        } else if (ry.getStatus().equalsIgnoreCase("refused")) {
             holder.status.setText(ry.getStatus());
-            holder.status.setTextColor(R.color.red);
+            holder.status.setTextColor(ContextCompat.getColor(mCtx, R.color.red));
         }
 
         Glide.with(mCtx)
@@ -85,6 +86,10 @@ public class RiwayatAdapter extends RecyclerView.Adapter<RiwayatAdapter.RiwayatV
         final String lowongan = ry.getIdLowongan();
         final String status = ry.getStatus();
 
+        //nama, alamat, email perusahaan
+        final String nama = ry.getNama();
+        final String email = ry.getEmail();
+        final String alamat = ry.getAlamat();
         holder.mCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,6 +101,11 @@ public class RiwayatAdapter extends RecyclerView.Adapter<RiwayatAdapter.RiwayatV
                 intent.putExtra("idCompany", company);
                 intent.putExtra("idLowongan", lowongan);
                 intent.putExtra("Status", status);
+                //nama, alamat, email
+                intent.putExtra("Nama", nama);
+                intent.putExtra("Email", email);
+                intent.putExtra("Alamat" , alamat);
+
                 v.getContext().startActivity(intent);
             }
         });
