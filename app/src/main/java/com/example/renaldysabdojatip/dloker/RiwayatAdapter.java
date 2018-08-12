@@ -90,6 +90,8 @@ public class RiwayatAdapter extends RecyclerView.Adapter<RiwayatAdapter.RiwayatV
         final String nama = ry.getNama();
         final String email = ry.getEmail();
         final String alamat = ry.getAlamat();
+
+        final String pict = ry.getPict();
         holder.mCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,6 +107,7 @@ public class RiwayatAdapter extends RecyclerView.Adapter<RiwayatAdapter.RiwayatV
                 intent.putExtra("Nama", nama);
                 intent.putExtra("Email", email);
                 intent.putExtra("Alamat" , alamat);
+                intent.putExtra("Pict", pict);
 
                 v.getContext().startActivity(intent);
             }
