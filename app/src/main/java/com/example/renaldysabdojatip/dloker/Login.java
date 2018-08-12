@@ -179,10 +179,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                             .addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                  public void onDataChange(DataSnapshot dataSnapshot) {
-                                    if (!dataSnapshot.getValue(String.class).equals("Partner")){
+                                    if (!dataSnapshot.getValue(String.class).equals("Palamar")){
                                         mAuth.signOut();
                                         Toast.makeText(Login.this,
-                                                "Mohon login menggunakan akun khusus Partner", Toast.LENGTH_SHORT).show();
+                                                "Mohon login menggunakan akun khusus Pelamar", Toast.LENGTH_SHORT).show();
                                     }
                                     else {
 
