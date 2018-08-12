@@ -16,8 +16,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
-public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.TimelineViewHolder> {
-
+public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.TimelineViewHolder>{
     private Context mCtx;
     public CardView cardView;
     List<Timeline> timelines;
