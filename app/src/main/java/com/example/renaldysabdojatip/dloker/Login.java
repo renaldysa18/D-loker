@@ -178,7 +178,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                     db.getReference("Users").child(mAuth.getCurrentUser().getUid()).child("accType")
                             .addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                     if (!dataSnapshot.getValue(String.class).equals("Partner")){
                                         mAuth.signOut();
                                         Toast.makeText(Login.this,
