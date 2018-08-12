@@ -32,6 +32,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
     ProgressBar progressBar;
 
+    FirebaseDatabase db;
+
     FirebaseAuth mAuth;
 
     DatabaseReference mRef = FirebaseDatabase.getInstance().getReference();
@@ -62,6 +64,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
         //firebase
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseDatabase.getInstance();
 
         if (mAuth.getCurrentUser() != null) {
 
@@ -165,38 +168,79 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
         Bundle extras = getIntent().getExtras();
 
-       if(extras != null){
-           type = extras.getString("accType");
-       }
+        mAuth.signInWithEmailAndPassword(Semail, Spass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull final Task<AuthResult> task) {
 
-        if (type.equalsIgnoreCase("Pelamar")) {
+                progressBar.setVisibility(View.GONE);
 
-            mAuth.signInWithEmailAndPassword(Semail, Spass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    db.getReference("Users").child(mAuth.getCurrentUser().getUid()).child("accType")
+                            .addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    if (!dataSnapshot.getValue(String.class).equals("Partner")){
+                                        mAuth.signOut();
+                                        Toast.makeText(Login.this,
+                                                "Mohon login menggunakan akun khusus Partner", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else {
 
-                    progressBar.setVisibility(View.GONE);
+                                        Intent intent = new Intent(Login.this, MainActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                }
 
-                    if (task.isSuccessful()) {
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
 
-                        Intent intent = new Intent(Login.this, MainActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-                        finish();
+                                }
+                            });
 
-                    } else {
+                } else {
 
-                        Toast.makeText(getApplicationContext(), "Email atau Password Anda Salah", Toast.LENGTH_SHORT).show();
-
-                    }
+                    Toast.makeText(getApplicationContext(), "Email atau Password Anda Salah", Toast.LENGTH_SHORT).show();
 
                 }
-            });
-        } else {
 
-            Toast.makeText(getApplicationContext(),"Gunakan Akun Pelamar", Toast.LENGTH_SHORT).show();;
+            }
+        });
 
-        }
+
+//       if(extras != null){
+//           type = extras.getString("accType");
+//       }
+//
+//        if (type.equalsIgnoreCase("Pelamar")) {
+//
+//            mAuth.signInWithEmailAndPassword(Semail, Spass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+//                @Override
+//                public void onComplete(@NonNull Task<AuthResult> task) {
+//
+//                    progressBar.setVisibility(View.GONE);
+//
+//                    if (task.isSuccessful()) {
+//
+//                        Intent intent = new Intent(Login.this, MainActivity.class);
+//                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                        startActivity(intent);
+//                        finish();
+//
+//                    } else {
+//
+//                        Toast.makeText(getApplicationContext(), "Email atau Password Anda Salah", Toast.LENGTH_SHORT).show();
+//
+//                    }
+//
+//                }
+//            });
+//        } else {
+//
+//            Toast.makeText(getApplicationContext(),"Gunakan Akun Pelamar", Toast.LENGTH_SHORT).show();;
+//
+//        }
 
 
     }
