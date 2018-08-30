@@ -24,23 +24,32 @@
                 android:layout_width="@dimen/logo_width"
                 android:layout_height="@dimen/logo_width" />
 
-            <EditText
-                android:inputType="textEmailAddress"
-                android:id="@+id/email_login"
+            <android.support.design.widget.TextInputLayout
                 android:layout_marginTop="@dimen/top"
-                android:background="@color/white"
-                android:hint="@string/email"
                 android:layout_width="@dimen/edit_width"
-                android:layout_height="@dimen/edit_height" />
+                android:layout_height="@dimen/edit_height">
+                <EditText
+                    android:inputType="textEmailAddress"
+                    android:id="@+id/email_login"
+                    android:background="@color/white"
+                    android:hint="@string/email"
+                    android:layout_width="@dimen/edit_width"
+                    android:layout_height="@dimen/edit_height" />
+            </android.support.design.widget.TextInputLayout>
 
-            <EditText
-                android:inputType="textPassword"
-                android:background="@color/white"
-                android:layout_marginTop="@dimen/top"
-                android:hint="@string/password"
-                android:id="@+id/password_login"
+            <android.support.design.widget.TextInputLayout
+                app:passwordToggleEnabled="true"
+                android:layout_marginTop="@dimen/to_title"
                 android:layout_width="@dimen/edit_width"
-                android:layout_height="@dimen/edit_height" />
+                android:layout_height="@dimen/edit_height">
+                <EditText
+                    android:inputType="textPassword"
+                    android:background="@color/white"
+                    android:hint="@string/password"
+                    android:id="@+id/password_login"
+                    android:layout_width="@dimen/edit_width"
+                    android:layout_height="@dimen/edit_height" />
+            </android.support.design.widget.TextInputLayout>
 
             <ProgressBar
                 android:visibility="gone"

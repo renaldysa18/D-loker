@@ -173,7 +173,7 @@ public class TimelineDetail extends AppCompatActivity {
 
                 //default
                 statusLmr = "wait";
-                profileImage = "https://firebasestorage.googleapis.com/v0/b/dloker-aac16.appspot.com/o/images%2Favatar1.png?alt=media&token=5339f319-38c2-400d-9ef3-a40d0a891dd7";
+                //profileImage = "https://firebasestorage.googleapis.com/v0/b/dloker-aac16.appspot.com/o/images%2Favatar1.png?alt=media&token=5339f319-38c2-400d-9ef3-a40d0a891dd7";
 
 
                 Map post = new HashMap();

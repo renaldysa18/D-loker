@@ -26,46 +26,70 @@
                 android:layout_width="@dimen/edit_width"
                 android:layout_height="wrap_content" />
 
-            <EditText
-                android:id="@+id/nama_signup"
-                android:hint="@string/nama"
+            <android.support.design.widget.TextInputLayout
                 android:layout_marginTop="@dimen/top"
                 android:layout_width="@dimen/edit_width"
-                android:layout_height="@dimen/edit_height" />
+                android:layout_height="@dimen/edit_height">
+                <EditText
+                    android:id="@+id/nama_signup"
+                    android:hint="@string/nama"
+                    android:layout_width="@dimen/edit_width"
+                    android:layout_height="@dimen/edit_height" />
+            </android.support.design.widget.TextInputLayout>
 
-
-            <EditText
-                android:inputType="textEmailAddress"
-                android:id="@+id/email_signup"
-                android:hint="@string/email"
+            <android.support.design.widget.TextInputLayout
                 android:layout_marginTop="@dimen/top"
                 android:layout_width="@dimen/edit_width"
-                android:layout_height="@dimen/edit_height" />
+                android:layout_height="@dimen/edit_height">
+                <EditText
+                    android:inputType="textEmailAddress"
+                    android:id="@+id/email_signup"
+                    android:hint="@string/email"
+                    android:layout_width="@dimen/edit_width"
+                    android:layout_height="@dimen/edit_height" />
+            </android.support.design.widget.TextInputLayout>
 
 
-            <EditText
-                android:inputType="number"
-                android:id="@+id/notelp_signup"
-                android:hint="@string/notelp"
+            <android.support.design.widget.TextInputLayout
                 android:layout_marginTop="@dimen/top"
                 android:layout_width="@dimen/edit_width"
-                android:layout_height="@dimen/edit_height" />
+                android:layout_height="@dimen/edit_height">
+                <EditText
+                    android:inputType="number"
+                    android:id="@+id/notelp_signup"
+                    android:hint="@string/notelp"
+                    android:layout_width="@dimen/edit_width"
+                    android:layout_height="@dimen/edit_height" />
+            </android.support.design.widget.TextInputLayout>
 
-            <EditText
-                android:id="@+id/password_signup"
-                android:hint="@string/password"
-                android:inputType="textPassword"
+
+            <android.support.design.widget.TextInputLayout
+                app:passwordToggleEnabled="true"
                 android:layout_marginTop="@dimen/top"
                 android:layout_width="@dimen/edit_width"
-                android:layout_height="@dimen/edit_height" />
+                android:layout_height="@dimen/edit_height"
+                >
+                <EditText
+                    android:id="@+id/password_signup"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    android:layout_width="@dimen/edit_width"
+                    android:layout_height="@dimen/edit_height" />
+            </android.support.design.widget.TextInputLayout>
 
-            <EditText
-                android:id="@+id/retype_pass_singup"
-                android:inputType="textPassword"
-                android:hint="@string/retype_password"
+            <android.support.design.widget.TextInputLayout
+                app:passwordToggleEnabled="true"
                 android:layout_marginTop="@dimen/top"
                 android:layout_width="@dimen/edit_width"
-                android:layout_height="@dimen/edit_height" />
+                android:layout_height="@dimen/edit_height">
+
+                <EditText
+                    android:id="@+id/retype_pass_singup"
+                    android:inputType="textPassword"
+                    android:hint="@string/retype_password"
+                    android:layout_width="@dimen/edit_width"
+                    android:layout_height="@dimen/edit_height" />
+            </android.support.design.widget.TextInputLayout>
 
             <ProgressBar
                 android:id="@+id/pb_signup"

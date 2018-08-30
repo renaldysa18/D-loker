@@ -110,7 +110,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
 
         namaCV = "CV Belum Tersedia";
         Sstatus = "Menunggu";
-        Spict = "https://firebasestorage.googleapis.com/v0/b/dloker-aac16.appspot.com/o/images%2Favatar1.png?alt=media&token=5339f319-38c2-400d-9ef3-a40d0a891dd7";
+        Spict = "https://firebasestorage.googleapis.com/v0/b/dloker-aac16.appspot.com/o/images%2Favatar.png?alt=media&token=1990b7d5-9c78-428b-b1f3-4e4a8552499f";
         Scv = "CV Belum Tersedia";
 
         Snama = nama.getText().toString().trim();
