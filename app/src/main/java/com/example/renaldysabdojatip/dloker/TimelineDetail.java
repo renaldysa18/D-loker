@@ -153,6 +153,9 @@ public class TimelineDetail extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 cv = dataSnapshot.child("CV").getValue(String.class);
+                if(!cv.equalsIgnoreCase("CV Belum Tersedia")){
+                    btn_lamaran.setVisibility(View.VISIBLE);
+                }
                 profileImage = dataSnapshot.child("Pict").getValue(String.class);
             }
 
@@ -161,6 +164,9 @@ public class TimelineDetail extends AppCompatActivity {
 
             }
         });
+
+        //checkButton Lamaran
+
 
         idLamaran = mData.getReference().push().getKey().toString();
         lamaran = mData.getReference().child("Lamaran").child(idLamaran);

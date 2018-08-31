@@ -1,6 +1,7 @@
 package com.example.renaldysabdojatip.dloker;
 
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -40,6 +42,9 @@ public class TimelineFragment extends Fragment {
     FirebaseAuth mAuth;
     public String namaP, emailP, alamatP, pictP, keyP;
 
+    //loading
+    public ProgressBar loading;
+
     public TimelineFragment() {
         // Required empty public constructor
     }
@@ -56,13 +61,17 @@ public class TimelineFragment extends Fragment {
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(llm);
 
+        //loading
+        loading = v.findViewById(R.id.loadingTimeline);
+
         DatabaseReference data = mDatabase.child("Lowongan");
         data.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
                 timelines.clear();
                 for (DataSnapshot ds : dataSnapshot.getChildren()){
+                    //loading.setVisibility(View.VISIBLE);
+
                     String title  = ds.child("Judul").getValue(String.class);
                     String perusahaan = ds.child("Kategori").getValue(String.class);
                     String lokasi = ds.child("Lokasi").getValue(String.class);
@@ -84,6 +93,7 @@ public class TimelineFragment extends Fragment {
                             , nama, alamat, email
                             ));
                 }
+                loading.setVisibility(View.GONE);
                 adapter = new TimelineAdapter(getContext(), timelines);
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
@@ -92,18 +102,15 @@ public class TimelineFragment extends Fragment {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                loading.setVisibility(View.GONE);
             }
         });
-
         //Toast.makeText(getActivity(), idComp,Toast.LENGTH_SHORT).show();
         return v;
     }
-
     @Override
     public void onResume() {
         super.onResume();
-
         ((MainActivity)getActivity()).setActionBarTitle("Timeline");
     }
 }

@@ -148,10 +148,10 @@ public class ProfileFragment extends Fragment {
                 mRef.child("namaCV").setValue(namaCV).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(getActivity(), "Mengirimkan Lamaran", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Mengunggah CV", Toast.LENGTH_SHORT).show();
                     }
                 });
-                Toast.makeText(getActivity(), "Mengirimkan Lamaran", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Mengunggah CV", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -160,7 +160,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 pilihCV(1);
-                Toast.makeText(getActivity(), "Lihat clicked", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "Lihat clicked", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -229,6 +229,9 @@ public class ProfileFragment extends Fragment {
                 String name = path.substring(path.lastIndexOf("/")+1);
                 this.namaCV = name;
                 judul_cv.setText(name);
+                if(!this.namaCV.equalsIgnoreCase("CV Belum Tersedia")){
+                    btn_unggah.setVisibility(View.VISIBLE);
+                }
             }
         }
     }

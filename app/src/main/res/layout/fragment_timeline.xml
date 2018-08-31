@@ -6,6 +6,13 @@
     android:id="@+id/timeline_frame"
     tools:context=".TimelineFragment">
 
+    <ProgressBar
+        android:visibility="gone"
+        android:id="@+id/loadingTimeline"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
     <!-- TODO: Update blank fragment layout -->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_timeline"

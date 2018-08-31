@@ -186,6 +186,7 @@
 
 
                 <Button
+                    android:visibility="gone"
                     android:id="@+id/btn_unggah_Cv"
                     android:textColor="@color/darkBlur"
                     android:text="@string/unggah_cv"

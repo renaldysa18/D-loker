@@ -143,6 +143,7 @@
         </ScrollView>
 
         <Button
+            android:visibility="gone"
             android:id="@+id/btn_kirim_lamaran"
             android:layout_width="@dimen/edit_width"
             android:layout_height="@dimen/edit_height"
