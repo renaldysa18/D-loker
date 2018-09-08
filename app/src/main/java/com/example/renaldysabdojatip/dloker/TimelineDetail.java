@@ -168,7 +168,7 @@ public class TimelineDetail extends AppCompatActivity {
                 checkDisabilitas = dataSnapshot.child("Disabilitas").getValue().toString();
                 checkCV = dataSnapshot.child("namaCV").getValue().toString();
 
-                if (!checkData(checkNama, checkEmail, checkAlamat, checkBidangKerja, checkNotelp,
+                if (checkData(checkNama, checkEmail, checkAlamat, checkBidangKerja, checkNotelp,
                         checkGender, checkTTl, checkDisabilitas, checkCV
                 )) {
                     btn_lamaran.setVisibility(View.VISIBLE);
@@ -258,8 +258,6 @@ public class TimelineDetail extends AppCompatActivity {
         if(checkCV.equalsIgnoreCase("-")){
             return false;
         }
-
-
 
         return true;
     }

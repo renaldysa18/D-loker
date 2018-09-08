@@ -54,9 +54,9 @@ public class TimelineFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v =  inflater.inflate(R.layout.fragment_timeline, container, false);
+        View v = inflater.inflate(R.layout.fragment_timeline, container, false);
 
-        recyclerView = (RecyclerView)v.findViewById(R.id.recycler_timeline);
+        recyclerView = (RecyclerView) v.findViewById(R.id.recycler_timeline);
 
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(llm);
@@ -69,10 +69,10 @@ public class TimelineFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 timelines.clear();
-                for (DataSnapshot ds : dataSnapshot.getChildren()){
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     //loading.setVisibility(View.VISIBLE);
 
-                    String title  = ds.child("Judul").getValue(String.class);
+                    String title = ds.child("Judul").getValue(String.class);
                     String perusahaan = ds.child("Kategori").getValue(String.class);
                     String lokasi = ds.child("Lokasi").getValue(String.class);
                     String detail = ds.child("Desc").getValue(String.class);
@@ -89,9 +89,9 @@ public class TimelineFragment extends Fragment {
                     SidCompany = idCompany;
 
                     timelines.add(new Timeline(title, perusahaan,
-                            lokasi,detail, idCompany, idLowongan, status, pict
+                            lokasi, detail, idCompany, idLowongan, status, pict
                             , nama, alamat, email
-                            ));
+                    ));
                 }
                 loading.setVisibility(View.GONE);
                 adapter = new TimelineAdapter(getContext(), timelines);
@@ -108,9 +108,10 @@ public class TimelineFragment extends Fragment {
         //Toast.makeText(getActivity(), idComp,Toast.LENGTH_SHORT).show();
         return v;
     }
+
     @Override
     public void onResume() {
         super.onResume();
-        ((MainActivity)getActivity()).setActionBarTitle("Timeline");
+        ((MainActivity) getActivity()).setActionBarTitle("Timeline");
     }
 }
