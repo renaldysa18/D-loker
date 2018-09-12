@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -33,6 +35,7 @@ public class RekomendasiFragment extends Fragment {
     private RecyclerView recyclerView;
 
     public String bidangKerja;
+    public HashMap<String, String> usr;
 
     public RekomendasiFragment() {
         // Required empty public constructor
@@ -67,6 +70,8 @@ public class RekomendasiFragment extends Fragment {
             }
         });
 
+        userPict();
+
         DatabaseReference mRef = mDatabase.child("Lowongan");
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -82,7 +87,7 @@ public class RekomendasiFragment extends Fragment {
                         String idCompany = ds.child("idCompany").getValue(String.class);
                         String idLowongan = ds.getKey().toString();
                         String status = ds.child("Status").getValue(String.class);
-                        String pict = ds.child("Pict").getValue(String.class);
+                        String pict = usr.get(idCompany);
                         //alamat, email, nama perushaan
                         String alamat = ds.child("Alamat").getValue(String.class);
                         String nama = ds.child("Nama").getValue(String.class);
@@ -105,6 +110,28 @@ public class RekomendasiFragment extends Fragment {
         });
 
         return v;
+    }
+
+    private void userPict() {
+        usr = new HashMap<String, String>();
+        final DatabaseReference user = mDatabase.child("Users");
+        user.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()){
+                    //usr.put(ds.getKey(), ds.child("UidCompany").getValue(String.class));
+                    String pict = ds.child("Pict").getValue(String.class);
+                    Log.d("getKey", ds.getKey());
+                    usr.put(ds.getKey(), pict);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     @Override

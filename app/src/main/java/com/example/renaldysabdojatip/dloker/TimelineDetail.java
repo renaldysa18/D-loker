@@ -1,5 +1,6 @@
 package com.example.renaldysabdojatip.dloker;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -33,12 +34,12 @@ public class TimelineDetail extends AppCompatActivity {
     public String sTitle, sPerusahaan, sLokasi, sDetail,
             sCompany, sLowongan, sStatus, idLamaran,
             statusLmr, cv, namaCV, pict, profileImage,
-            nama, alamat, email;
+            nama, alamat, email, ntfPart, ntfUser;
 
     public String checkAlamat, checkBidangKerja, checkCV, checkDisabilitas, checkEmail, checkGender,
-            checkNama, checkNotelp, checkPict, checkStatus, checkTTl, checkNamaCV;
+            checkNama, checkNotelp, checkPict, strStatusLmr, checkTTl, checkNamaCV;
 
-    DatabaseReference mRef, lamaran, user, bookmark;
+    DatabaseReference mRef, lamaran, user, bookmark, checkStatusLmr;
     FirebaseDatabase mData;
     FirebaseAuth mAuth;
 
@@ -48,6 +49,7 @@ public class TimelineDetail extends AppCompatActivity {
     ImageView imageView;
 
     String img;
+    private String alertUser;
 
     public TimelineDetail() {
     }
@@ -116,6 +118,21 @@ public class TimelineDetail extends AppCompatActivity {
         mData = FirebaseDatabase.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
+
+        /*checkStatusLmr = mData.getReference().child("Lamaran");
+        checkStatusLmr.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                strStatusLmr = dataSnapshot.child("statusLmr").getValue(String.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });*/
+
+
         final String uid = mAuth.getUid();
 
         mRef = mData.getReference().child("Bookmark").child(uid).child(sTitle);
@@ -139,6 +156,7 @@ public class TimelineDetail extends AppCompatActivity {
                 post.put("Nama", nama);
                 post.put("Email", email);
                 post.put("Alamat", alamat);
+                post.put("CV", cv);
 
                 mRef.setValue(post);
 
@@ -152,13 +170,13 @@ public class TimelineDetail extends AppCompatActivity {
         user.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                /*cv = dataSnapshot.child("CV").getValue(String.class);
-                if(!cv.equalsIgnoreCase("CV Belum Tersedia")){
+                cv = dataSnapshot.child("CV").getValue(String.class);
+                /*if(!cv.equalsIgnoreCase("CV Belum Tersedia")){
                     btn_lamaran.setVisibility(View.VISIBLE);
                 }
                 profileImage = dataSnapshot.child("Pict").getValue(String.class);*/
 
-                checkNama = dataSnapshot.child("Nama").getValue().toString();
+                checkNama = dataSnapshot.   child("Nama").getValue().toString();
                 checkEmail = dataSnapshot.child("Email").getValue().toString();
                 checkAlamat = dataSnapshot.child("Alamat").getValue().toString();
                 checkBidangKerja = dataSnapshot.child("BidangKerja").getValue().toString();
@@ -195,9 +213,10 @@ public class TimelineDetail extends AppCompatActivity {
         btn_lamaran.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 //default
                 statusLmr = "wait";
+                ntfPart = "false";
+                ntfUser = "false";
                 //profileImage = "https://firebasestorage.googleapis.com/v0/b/dloker-aac16.appspot.com/o/images%2Favatar1.png?alt=media&token=5339f319-38c2-400d-9ef3-a40d0a891dd7";
 
 
@@ -210,14 +229,18 @@ public class TimelineDetail extends AppCompatActivity {
                 post.put("idCompany", sCompany);
                 post.put("idLowongan", sLowongan);
                 post.put("idLamaran", idLamaran);
+
                 post.put("statusLmr", statusLmr);
+                strStatusLmr = statusLmr;
+
                 post.put("CV", cv);
                 post.put("PelamarPict", profileImage);
                 post.put("PictComp", pict);
                 post.put("Nama", nama);
                 post.put("Email", email);
                 post.put("Alamat", alamat);
-
+                post.put("ntfPart", ntfPart);
+                post.put("ntfUser", ntfUser);
                 lamaran.setValue(post);
                 Toast.makeText(getApplicationContext(), "Mengirim Lamaran", Toast.LENGTH_SHORT).show();
 
@@ -225,37 +248,39 @@ public class TimelineDetail extends AppCompatActivity {
         });
 
         //Toast.makeText(getApplicationContext(), cv, Toast.LENGTH_SHORT).show();
+
+
     }
 
     private boolean checkData(String checkNama, String checkEmail, String checkAlamat,
                               String checkBidangKerja, String checkNotelp, String checkGender,
                               String checkTTl, String checkDisabilitas, String checkCV) {
 
-        if(checkNama.equalsIgnoreCase("-")){
+        if (checkNama.equalsIgnoreCase("-")) {
             return false;
         }
-        if(checkEmail.equalsIgnoreCase("-")){
+        if (checkEmail.equalsIgnoreCase("-")) {
             return false;
         }
-        if(checkAlamat.equalsIgnoreCase("-")){
+        if (checkAlamat.equalsIgnoreCase("-")) {
             return false;
         }
-        if(checkBidangKerja.equalsIgnoreCase("-")){
+        if (checkBidangKerja.equalsIgnoreCase("-")) {
             return false;
         }
-        if(checkNotelp.equalsIgnoreCase("-")){
+        if (checkNotelp.equalsIgnoreCase("-")) {
             return false;
         }
-        if(checkGender.equalsIgnoreCase("-")){
+        if (checkGender.equalsIgnoreCase("-")) {
             return false;
         }
-        if(checkTTl.equalsIgnoreCase("-")){
+        if (checkTTl.equalsIgnoreCase("-")) {
             return false;
         }
-        if(checkDisabilitas.equalsIgnoreCase("-")){
+        if (checkDisabilitas.equalsIgnoreCase("-")) {
             return false;
         }
-        if(checkCV.equalsIgnoreCase("-")){
+        if (checkCV.equalsIgnoreCase("-")) {
             return false;
         }
 

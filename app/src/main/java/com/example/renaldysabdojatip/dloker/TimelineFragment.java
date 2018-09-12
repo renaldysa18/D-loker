@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -44,7 +46,7 @@ public class TimelineFragment extends Fragment {
 
     //loading
     public ProgressBar loading;
-
+    public HashMap<String, String> usr;
     public TimelineFragment() {
         // Required empty public constructor
     }
@@ -64,11 +66,16 @@ public class TimelineFragment extends Fragment {
         //loading
         loading = v.findViewById(R.id.loadingTimeline);
 
-        DatabaseReference data = mDatabase.child("Lowongan");
+
+        userPict();
+
+        final DatabaseReference data = mDatabase.child("Lowongan");
         data.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 timelines.clear();
+
+
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     //loading.setVisibility(View.VISIBLE);
 
@@ -79,15 +86,16 @@ public class TimelineFragment extends Fragment {
                     String idCompany = ds.child("idCompany").getValue(String.class);
                     String idLowongan = ds.getKey().toString();
                     String status = ds.child("Status").getValue(String.class);
-                    String pict = ds.child("Pict").getValue(String.class);
-
-                    //alamat, email, nama perushaan
+                    //String pict = ds.child("Pict").getValue(String.class);
                     String alamat = ds.child("Alamat").getValue(String.class);
                     String nama = ds.child("Nama").getValue(String.class);
                     String email = ds.child("Email").getValue(String.class);
 
                     SidCompany = idCompany;
 
+                    String pict = usr.get(idCompany);
+
+                    Log.d("Foto", idCompany);
                     timelines.add(new Timeline(title, perusahaan,
                             lokasi, detail, idCompany, idLowongan, status, pict
                             , nama, alamat, email
@@ -109,9 +117,32 @@ public class TimelineFragment extends Fragment {
         return v;
     }
 
+    private void userPict() {
+        usr = new HashMap<String, String>();
+        final DatabaseReference user = mDatabase.child("Users");
+        user.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()){
+                    //usr.put(ds.getKey(), ds.child("UidCompany").getValue(String.class));
+                    String pict = ds.child("Pict").getValue(String.class);
+                    Log.d("getKey", ds.getKey());
+                    usr.put(ds.getKey(), pict);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
     @Override
     public void onResume() {
         super.onResume();
+
         ((MainActivity) getActivity()).setActionBarTitle("Timeline");
     }
 }

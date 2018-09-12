@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -172,7 +173,7 @@ public class EditProfile extends AppCompatActivity {
                 //image
                 String url;
                 url = dataSnapshot.child("Pict").getValue().toString(); 
-                Glide.with(EditProfile.this)
+                Glide.with(getApplicationContext())
                         .load(url)
                         .into(pict);
 
@@ -195,7 +196,6 @@ public class EditProfile extends AppCompatActivity {
         btn_save_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 final String Snama, Semail, Snotelp, Sbidang, Salamat, Sttl;
 
                 //edit value
@@ -254,12 +254,15 @@ public class EditProfile extends AppCompatActivity {
                     ttl.requestFocus();
                     return;
                 }
-
-                progressBar.setVisibility(View.VISIBLE);
+                final ProgressDialog dialog = new ProgressDialog(EditProfile.this);
+                dialog.setMessage("Menyimpan Data..");
+                dialog.show();
+                //progressBar.setVisibility(View.VISIBLE);
                 mRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        progressBar.setVisibility(View.GONE);
+                        //progressBar.setVisibility(View.GONE);
+
 
                         dataSnapshot.getRef().child("Nama").setValue(Snama);
                         dataSnapshot.getRef().child("Email").setValue(Semail);
@@ -271,28 +274,35 @@ public class EditProfile extends AppCompatActivity {
                         dataSnapshot.getRef().child("Gender").setValue(Sgender);
                         dataSnapshot.getRef().child("Disabilitas").setValue(Sdisabilitas);
 
+                        mUser.updateEmail(Semail).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+
+                                //progressBar.setVisibility(View.VISIBLE);
+                                if (task.isSuccessful()) {
+                                    //progressBar.setVisibility(View.GONE);
+                                    //Toast.makeText(EditProfile.this, "Berhasil", Toast.LENGTH_SHORT).show();
+                                    dialog.dismiss();
+
+                                }
+                            }
+                        });
+
+
+
                         //coba
                         //dataSnapshot.getRef().child("Pict").setValue(downloadImg);
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-                        progressBar.setVisibility(View.GONE);
+                        //progressBar.setVisibility(View.GONE);
+                        dialog.dismiss();
                         Log.d("Error : ", databaseError.getMessage());
                     }
                 });
 
-                mUser.updateEmail(Semail).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
 
-                        progressBar.setVisibility(View.VISIBLE);
-                        if (task.isSuccessful()) {
-                            progressBar.setVisibility(View.GONE);
-                            Toast.makeText(EditProfile.this, "Berhasil", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
 
             }
         });
