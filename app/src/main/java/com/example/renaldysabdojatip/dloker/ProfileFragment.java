@@ -2,6 +2,7 @@ package com.example.renaldysabdojatip.dloker;
 
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -148,10 +149,10 @@ public class ProfileFragment extends Fragment {
                 mRef.child("namaCV").setValue(namaCV).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(getActivity(), "Mengirimkan Lamaran", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Mengunggah CV harap tunggu", Toast.LENGTH_SHORT).show();
                     }
                 });
-                Toast.makeText(getActivity(), "Mengirimkan Lamaran", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "Mengunggah CV", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -160,7 +161,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 pilihCV(1);
-                Toast.makeText(getActivity(), "Lihat clicked", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "Lihat clicked", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -229,6 +230,9 @@ public class ProfileFragment extends Fragment {
                 String name = path.substring(path.lastIndexOf("/")+1);
                 this.namaCV = name;
                 judul_cv.setText(name);
+                if(!this.namaCV.equalsIgnoreCase("CV Belum Tersedia")){
+                    btn_unggah.setVisibility(View.VISIBLE);
+                }
             }
         }
     }
@@ -242,6 +246,9 @@ public class ProfileFragment extends Fragment {
                     .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                            final ProgressDialog dialog = new ProgressDialog(getActivity());
+                            dialog.setMessage("Menggungah CV");
+                            dialog.show();
                             if (task.isSuccessful()) {
                                 ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                     @Override
@@ -252,12 +259,17 @@ public class ProfileFragment extends Fragment {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if (task.isSuccessful()) {
+                                                    dialog.dismiss();
                                                     Toast.makeText(getActivity().getApplicationContext(), "Upload Cv", Toast.LENGTH_SHORT).show();
+                                                } else {
+                                                    dialog.dismiss();
                                                 }
                                             }
                                         });
                                     }
                                 });
+                            } else {
+                                dialog.dismiss();
                             }
 
                         }

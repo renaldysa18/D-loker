@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.os.Build;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -49,12 +51,15 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class EditProfile extends AppCompatActivity {
 
+    private static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1 ;
     private EditText nama, email, ttl, alamat, notelp;
     private Spinner disabilitas, gender, bidang;
     private Button btn_save_edit;
@@ -66,6 +71,7 @@ public class EditProfile extends AppCompatActivity {
     private ProgressBar progressBar;
     private TextView judul_edit;
     private ImageButton btn_pict;
+
 
     //image
     //firebase store
@@ -167,7 +173,7 @@ public class EditProfile extends AppCompatActivity {
                 //image
                 String url;
                 url = dataSnapshot.child("Pict").getValue().toString(); 
-                Glide.with(EditProfile.this)
+                Glide.with(getApplicationContext())
                         .load(url)
                         .into(pict);
 
@@ -190,7 +196,6 @@ public class EditProfile extends AppCompatActivity {
         btn_save_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 final String Snama, Semail, Snotelp, Sbidang, Salamat, Sttl;
 
                 //edit value
@@ -249,15 +254,15 @@ public class EditProfile extends AppCompatActivity {
                     ttl.requestFocus();
                     return;
                 }
-
-
-                progressBar.setVisibility(View.VISIBLE);
-
+                final ProgressDialog dialog = new ProgressDialog(EditProfile.this);
+                dialog.setMessage("Menyimpan Data..");
+                dialog.show();
+                //progressBar.setVisibility(View.VISIBLE);
                 mRef.addValueEventListener(new ValueEventListener() {
-
-
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
+                        //progressBar.setVisibility(View.GONE);
+
 
                         dataSnapshot.getRef().child("Nama").setValue(Snama);
                         dataSnapshot.getRef().child("Email").setValue(Semail);
@@ -269,32 +274,35 @@ public class EditProfile extends AppCompatActivity {
                         dataSnapshot.getRef().child("Gender").setValue(Sgender);
                         dataSnapshot.getRef().child("Disabilitas").setValue(Sdisabilitas);
 
+                        mUser.updateEmail(Semail).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+
+                                //progressBar.setVisibility(View.VISIBLE);
+                                if (task.isSuccessful()) {
+                                    //progressBar.setVisibility(View.GONE);
+                                    //Toast.makeText(EditProfile.this, "Berhasil", Toast.LENGTH_SHORT).show();
+                                    dialog.dismiss();
+
+                                }
+                            }
+                        });
+
+
+
                         //coba
                         //dataSnapshot.getRef().child("Pict").setValue(downloadImg);
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
+                        //progressBar.setVisibility(View.GONE);
+                        dialog.dismiss();
                         Log.d("Error : ", databaseError.getMessage());
                     }
                 });
 
-                mUser.updateEmail(Semail).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
 
-                        progressBar.setVisibility(View.GONE);
-
-                        if (task.isSuccessful()) {
-
-
-                            /*FragmentManager fm = getFragmentManager();
-                            fm.beginTransaction().replace(R.id.main_frame, pf).commit();*/
-
-                            Toast.makeText(EditProfile.this, "Berhasil", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
 
             }
         });
@@ -328,23 +336,15 @@ public class EditProfile extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int i) {
                 if (items[i].equals("Camera")) {
-                    if (ContextCompat.checkSelfPermission(EditProfile.this, Manifest.permission.CAMERA)
-                            != PackageManager.PERMISSION_GRANTED) {
-                        requestPermissions(new String[] {Manifest.permission.CAMERA},
-                                REQUEST_CODE_ASK_PERMISSIONS);
 
-                        return;
-                    }
-                    if (ContextCompat.checkSelfPermission(EditProfile.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                            != PackageManager.PERMISSION_GRANTED) {
-                        requestPermissions(new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                REQUEST_CODE_ASK_PERMISSIONS);
-                        return;
+                    if(checkAndRequestPermissions()) {
+                        // carry on the normal flow, as the case of  permissions  granted.
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        startActivityForResult(intent, REQUSET_CAMERA);
                     }
 
 
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(intent, REQUSET_CAMERA);
+
 
                 } else if (items[i].equals("Gallery")) {
                     if (ContextCompat.checkSelfPermission(EditProfile.this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -363,6 +363,24 @@ public class EditProfile extends AppCompatActivity {
             }
         });
         builder.show();
+    }
+
+    private  boolean checkAndRequestPermissions() {
+        int permissionCamera = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA);
+        int permissionWrite = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        List<String> listPermissionsNeeded = new ArrayList<>();
+        if (permissionCamera != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.CAMERA);
+        }
+        if (permissionWrite != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]),REQUEST_ID_MULTIPLE_PERMISSIONS);
+            return false;
+        }
+        return true;
     }
 
 

@@ -95,8 +95,9 @@ public class BookmarkFragment extends Fragment {
                     String alamat = ds.child("Alamat").getValue(String.class);
                     String nama = ds.child("Nama").getValue(String.class);
                     String email = ds.child("Email").getValue(String.class);
+                    String idLwg = ds.child("idLowongan").getValue(String.class);
 
-                    bookmarks.add(new Bookmark(title, perusahaan, lokasi, detail, idCompany, idLowongan, status, pict, nama, alamat, email));
+                    bookmarks.add(new Bookmark(title, perusahaan, lokasi, detail, idCompany, idLowongan, status, pict, nama, alamat, email, idLwg));
                     //Toast.makeText(getActivity(), ds.child("UID").getValue(String.class),Toast.LENGTH_SHORT).show();
                     //}
                 }

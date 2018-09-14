@@ -143,6 +143,7 @@
         </ScrollView>
 
         <Button
+            android:visibility="gone"
             android:id="@+id/btn_kirim_lamaran"
             android:layout_width="@dimen/edit_width"
             android:layout_height="@dimen/edit_height"
@@ -154,6 +155,7 @@
             android:textColor="@color/white" />
 
         <Button
+            android:visibility="visible"
             android:id="@+id/btn_tmbh_bookmark"
             android:layout_width="@dimen/edit_width"
             android:layout_height="@dimen/edit_height"

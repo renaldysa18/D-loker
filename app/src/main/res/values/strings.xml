@@ -50,4 +50,13 @@
     <string name="nama_perusahaan">Nama Perusahaan</string>
     <string name="email_perusahaan">Email Perusahaan</string>
     <string name="alamat_perusahaan">Alamat Perusahaan</string>
+    <string name="acara">Pelatihan</string>
+    <string name="nama_pemateri">Pemateri</string>
+    <string name="judul">Judul</string>
+    <string name="lokasi">Lokasi</string>
+    <string name="tanggal">Tanggal</string>
+    <string name="contact">Contact</string>
+    <string name="detail">Detail</string>
+    <string name="hubungi">Hubungi</string>
+    <string name="Detail_acara">Detail Acara</string>
 </resources>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AcaraDetail">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toobar_acara"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_below="@id/toobar_acara"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+
+        <ImageView
+            android:id="@+id/imageView_acaraDetail"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:layout_width="fill_parent"
+            android:layout_height="125dp"
+            android:src="@drawable/dlogo" />
+
+        <TextView
+            android:id="@+id/textView_judulAcaraDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/to_title"
+            android:text="@string/judul"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+
+        <TextView
+            android:gravity="right"
+            android:id="@+id/textView_tanggalAcaraDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/to_title"
+            android:text="@string/tanggal"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+
+        <TextView
+            android:layout_marginTop="@dimen/to_title"
+            android:id="@+id/textView_lokasiAcraDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="@string/lokasi"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+
+        <TextView
+            android:id="@+id/textView_contactAcaraDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/to_title"
+            android:gravity="right"
+            android:text="@string/contact"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+
+        <TextView
+            android:textColor="@color/blue"
+            android:text="@string/Detail_acara"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginTop="@dimen/to_title"
+            android:background="@drawable/button_border_blue"
+            android:id="@+id/textView_descAcaraDetail"
+            android:layout_width="match_parent"
+            android:padding="3dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="@string/detail"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+
+
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabNoTelp"
+        app:fabSize="normal"
+        app:backgroundTint="@color/orange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="65dp"
+        android:layout_marginEnd="30dp"
+        android:src="@drawable/ic_phone_in_talk" />
+
+
+</RelativeLayout>
