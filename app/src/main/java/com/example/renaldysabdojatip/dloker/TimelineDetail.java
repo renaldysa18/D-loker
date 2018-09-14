@@ -234,7 +234,9 @@ public class TimelineDetail extends AppCompatActivity {
                         checkGender, checkTTl, checkDisabilitas, checkCV
                 ) && !cek) {
                     btn_lamaran.setVisibility(View.VISIBLE);
-                } else {
+                } else if (cek){
+                    Toast.makeText(getApplicationContext(), "Anda Sudah Mengirim CV", Toast.LENGTH_SHORT).show();
+                } else{
                     Toast.makeText(TimelineDetail.this, "Harap Lengkapi Data Diri dan CV", Toast.LENGTH_LONG).show();
                 }
 
