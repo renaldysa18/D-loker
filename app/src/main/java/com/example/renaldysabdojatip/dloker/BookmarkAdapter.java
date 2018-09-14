@@ -100,6 +100,7 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
         final String nama = bm.getNama();
         final String email = bm.getEmail();
         final String alamat = bm.getAlamat();
+        final String idLwg = bm.getIdLwg();
         holder.btn_del.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,6 +136,7 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
                 intent.putExtra("Nama", nama);
                 intent.putExtra("Email", email);
                 intent.putExtra("Alamat", alamat);
+                intent.putExtra("idLowongan", idLwg);
                 v.getContext().startActivity(intent);
 
                 //Toast.makeText(v.getContext(), String.valueOf(position), Toast.LENGTH_SHORT).show();

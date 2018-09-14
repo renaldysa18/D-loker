@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -34,10 +35,11 @@ public class TimelineDetail extends AppCompatActivity {
     public String sTitle, sPerusahaan, sLokasi, sDetail,
             sCompany, sLowongan, sStatus, idLamaran,
             statusLmr, cv, namaCV, pict, profileImage,
-            nama, alamat, email, ntfPart, ntfUser;
+            nama, alamat, email, ntfPart, ntfUser, idLowongan;
 
     public String checkAlamat, checkBidangKerja, checkCV, checkDisabilitas, checkEmail, checkGender,
             checkNama, checkNotelp, checkPict, strStatusLmr, checkTTl, checkNamaCV;
+    boolean cek;
 
     DatabaseReference mRef, lamaran, user, bookmark, checkStatusLmr;
     FirebaseDatabase mData;
@@ -49,6 +51,7 @@ public class TimelineDetail extends AppCompatActivity {
     ImageView imageView;
 
     String img;
+    ArrayList<String> lmr;
     private String alertUser;
 
     public TimelineDetail() {
@@ -73,6 +76,44 @@ public class TimelineDetail extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
 
+        //retrieveRwy();
+
+        lmr = new ArrayList<String>();
+        btn_lamaran = (Button) findViewById(R.id.btn_kirim_lamaran);
+
+        mDatabase.child("Lamaran").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()){
+                    if (ds.child("UID").exists()) {
+                        if (ds.child("UID").getValue(String.class).equalsIgnoreCase(mAuth.getCurrentUser().getUid())) {
+                            lmr.add(ds.child("idLowongan").getValue(String.class));
+                            Log.d("TAG1", ds.child("idLowongan").getValue(String.class));
+                            for (int i = 0; i < lmr.size(); i++){
+                                if (sLowongan.equalsIgnoreCase(lmr.get(i))){
+                                    Log.d("TAG", "OK");
+                                    //btn_lamaran.setVisibility(View.GONE);
+                                    cek = true;
+                                    break;
+                                }
+                                else {
+                                    //btn_lamaran.setVisibility(View.VISIBLE);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
         if (extras != null) {
             sTitle = extras.getString("Title");
             sPerusahaan = extras.getString("Perusahaan");
@@ -85,7 +126,10 @@ public class TimelineDetail extends AppCompatActivity {
             nama = extras.getString("Nama");
             email = extras.getString("Email");
             alamat = extras.getString("Alamat");
+            idLowongan = extras.getString("idLowongan");
         }
+        Log.d("TAG", Integer.toString(lmr.size()));
+
 
         tvTitle = (TextView) findViewById(R.id.textViewTitle_timeline);
         tvLokasi = (TextView) findViewById(R.id.textViewLokasi_timeline_detail);
@@ -188,7 +232,7 @@ public class TimelineDetail extends AppCompatActivity {
 
                 if (checkData(checkNama, checkEmail, checkAlamat, checkBidangKerja, checkNotelp,
                         checkGender, checkTTl, checkDisabilitas, checkCV
-                )) {
+                ) && !cek) {
                     btn_lamaran.setVisibility(View.VISIBLE);
                 } else {
                     Toast.makeText(TimelineDetail.this, "Harap Lengkapi Data Diri dan CV", Toast.LENGTH_LONG).show();
@@ -205,10 +249,10 @@ public class TimelineDetail extends AppCompatActivity {
         //checkButton Lamaran
 
 
+
         idLamaran = mData.getReference().push().getKey().toString();
         lamaran = mData.getReference().child("Lamaran").child(idLamaran);
 
-        btn_lamaran = (Button) findViewById(R.id.btn_kirim_lamaran);
 
         btn_lamaran.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -217,6 +261,7 @@ public class TimelineDetail extends AppCompatActivity {
                 statusLmr = "wait";
                 ntfPart = "false";
                 ntfUser = "false";
+                alertUser = "false";
                 //profileImage = "https://firebasestorage.googleapis.com/v0/b/dloker-aac16.appspot.com/o/images%2Favatar1.png?alt=media&token=5339f319-38c2-400d-9ef3-a40d0a891dd7";
 
 
@@ -241,6 +286,7 @@ public class TimelineDetail extends AppCompatActivity {
                 post.put("Alamat", alamat);
                 post.put("ntfPart", ntfPart);
                 post.put("ntfUser", ntfUser);
+                post.put("AlertUser", alertUser);
                 lamaran.setValue(post);
                 Toast.makeText(getApplicationContext(), "Mengirim Lamaran", Toast.LENGTH_SHORT).show();
 
@@ -285,6 +331,25 @@ public class TimelineDetail extends AppCompatActivity {
         }
 
         return true;
+    }
+
+    public void retrieveRwy(){
+        lmr = new ArrayList<String>();
+        mDatabase.child("Lamaran").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()){
+                    if (ds.child("UID").getValue(String.class).equalsIgnoreCase(mAuth.getCurrentUser().getUid())){
+                        lmr.add(ds.child("idLowongan").getValue(String.class));
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
 
