@@ -59,7 +59,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class EditProfile extends AppCompatActivity {
 
-    private static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1 ;
+    private static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
     private EditText nama, email, ttl, alamat, notelp;
     private Spinner disabilitas, gender, bidang;
     private Button btn_save_edit;
@@ -172,7 +172,7 @@ public class EditProfile extends AppCompatActivity {
 
                 //image
                 String url;
-                url = dataSnapshot.child("Pict").getValue().toString(); 
+                url = dataSnapshot.child("Pict").getValue().toString();
                 Glide.with(getApplicationContext())
                         .load(url)
                         .into(pict);
@@ -214,94 +214,57 @@ public class EditProfile extends AppCompatActivity {
                 Sdisabilitas = disabilitas.getSelectedItem().toString();
 
                 //image
-                //nama
-                if (Snama.isEmpty()) {
-                    nama.setError("Nama Tidak Boleh Kosong");
-                    nama.requestFocus();
-                    return;
-                }
 
-                //email
-                if (Semail.isEmpty()) {
-                    email.setError("Email Tidak Boleh Kosong");
-                    email.requestFocus();
-                    return;
-                }
+                if (checkMasukan(Snama, Semail, Snotelp, Salamat, Sttl)) {
 
-                if (!Patterns.EMAIL_ADDRESS.matcher(Semail).matches()) {
-                    email.setError("Email Tidak Benar");
-                    email.requestFocus();
-                    return;
-                }
-
-                //notelp
-                if (Snotelp.isEmpty()) {
-                    notelp.setError("Nomor Telepon Tidak Boleh Kosong");
-                    notelp.requestFocus();
-                    return;
-                }
-
-                //alamat
-                if (Salamat.isEmpty()) {
-                    alamat.setError("Alamat Tidak Boleh Kosong");
-                    alamat.requestFocus();
-                    return;
-                }
-
-                //ttl
-                if (Sttl.isEmpty()) {
-                    ttl.setError("Tempat Tanggal Lahir Tidak Boleh Kosong");
-                    ttl.requestFocus();
-                    return;
-                }
-                final ProgressDialog dialog = new ProgressDialog(EditProfile.this);
-                dialog.setMessage("Menyimpan Data..");
-                dialog.show();
-                //progressBar.setVisibility(View.VISIBLE);
-                mRef.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        //progressBar.setVisibility(View.GONE);
+                    final ProgressDialog dialog = new ProgressDialog(EditProfile.this);
+                    dialog.setMessage("Menyimpan Data..");
+                    dialog.show();
+                    //progressBar.setVisibility(View.VISIBLE);
+                    mRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            //progressBar.setVisibility(View.GONE);
 
 
-                        dataSnapshot.getRef().child("Nama").setValue(Snama);
-                        dataSnapshot.getRef().child("Email").setValue(Semail);
-                        dataSnapshot.getRef().child("NoTelp").setValue(Snotelp);
-                        dataSnapshot.getRef().child("Alamat").setValue(Salamat);
-                        dataSnapshot.getRef().child("BidangKerja").setValue(Sbidang);
-                        dataSnapshot.getRef().child("TempatTanggalLahir").setValue(Sttl);
+                            dataSnapshot.getRef().child("Nama").setValue(Snama);
+                            dataSnapshot.getRef().child("Email").setValue(Semail);
+                            dataSnapshot.getRef().child("NoTelp").setValue(Snotelp);
+                            dataSnapshot.getRef().child("Alamat").setValue(Salamat);
+                            dataSnapshot.getRef().child("BidangKerja").setValue(Sbidang);
+                            dataSnapshot.getRef().child("TempatTanggalLahir").setValue(Sttl);
 
-                        dataSnapshot.getRef().child("Gender").setValue(Sgender);
-                        dataSnapshot.getRef().child("Disabilitas").setValue(Sdisabilitas);
+                            dataSnapshot.getRef().child("Gender").setValue(Sgender);
+                            dataSnapshot.getRef().child("Disabilitas").setValue(Sdisabilitas);
 
-                        mUser.updateEmail(Semail).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
+                            mUser.updateEmail(Semail).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
 
-                                //progressBar.setVisibility(View.VISIBLE);
-                                if (task.isSuccessful()) {
-                                    //progressBar.setVisibility(View.GONE);
-                                    //Toast.makeText(EditProfile.this, "Berhasil", Toast.LENGTH_SHORT).show();
-                                    dialog.dismiss();
+                                    //progressBar.setVisibility(View.VISIBLE);
+                                    if (task.isSuccessful()) {
+                                        //progressBar.setVisibility(View.GONE);
+                                        //Toast.makeText(EditProfile.this, "Berhasil", Toast.LENGTH_SHORT).show();
+                                        dialog.dismiss();
 
+                                    }
                                 }
-                            }
-                        });
+                            });
 
 
+                            //coba
+                            //dataSnapshot.getRef().child("Pict").setValue(downloadImg);
+                        }
 
-                        //coba
-                        //dataSnapshot.getRef().child("Pict").setValue(downloadImg);
-                    }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            //progressBar.setVisibility(View.GONE);
+                            dialog.dismiss();
+                            Log.d("Error : ", databaseError.getMessage());
+                        }
+                    });
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        //progressBar.setVisibility(View.GONE);
-                        dialog.dismiss();
-                        Log.d("Error : ", databaseError.getMessage());
-                    }
-                });
-
+                }
 
 
             }
@@ -325,6 +288,64 @@ public class EditProfile extends AppCompatActivity {
 
     }
 
+    private Boolean checkMasukan(String Snama, String Semail, String Snotelp, String Salamat, String Sttl) {
+        //nama
+        if (Snama.isEmpty()) {
+            nama.setError("Nama Tidak Boleh Kosong");
+            nama.requestFocus();
+            return false;
+        }
+
+        //email
+        if (Semail.isEmpty()) {
+            email.setError("Email Tidak Boleh Kosong");
+            email.requestFocus();
+            return false;
+        }
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(Semail).matches()) {
+            email.setError("Email Tidak Benar");
+            email.requestFocus();
+            return false;
+        }
+
+        //notelp
+        if (Snotelp.isEmpty()) {
+            notelp.setError("Nomor Telepon Tidak Boleh Kosong");
+            notelp.requestFocus();
+            return false;
+        }
+
+        if (Snotelp.length() < 11) {
+            notelp.setError("Nomor Tidak valid");
+            notelp.requestFocus();
+            return false;
+        }
+
+        if(Snotelp.length() > 12){
+            notelp.setError("Nomot Tidak Valid");
+            notelp.requestFocus();
+            return false;
+        }
+
+
+        //alamat
+        if (Salamat.isEmpty()) {
+            alamat.setError("Alamat Tidak Boleh Kosong");
+            alamat.requestFocus();
+            return false;
+        }
+
+        //ttl
+        if (Sttl.isEmpty()) {
+            ttl.setError("Tempat Tanggal Lahir Tidak Boleh Kosong");
+            ttl.requestFocus();
+            return false;
+        }
+
+        return true;
+    }
+
     public void selectImage() {
         final CharSequence[] items = {"Camera", "Gallery", "Cancel"};
 
@@ -337,19 +358,17 @@ public class EditProfile extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int i) {
                 if (items[i].equals("Camera")) {
 
-                    if(checkAndRequestPermissions()) {
+                    if (checkAndRequestPermissions()) {
                         // carry on the normal flow, as the case of  permissions  granted.
                         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         startActivityForResult(intent, REQUSET_CAMERA);
                     }
 
 
-
-
                 } else if (items[i].equals("Gallery")) {
                     if (ContextCompat.checkSelfPermission(EditProfile.this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
                             != PackageManager.PERMISSION_GRANTED) {
-                        requestPermissions(new String[] {Manifest.permission.READ_EXTERNAL_STORAGE},
+                        requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                                 REQUEST_CODE_ASK_PERMISSIONS);
                         return;
                     }
@@ -365,7 +384,7 @@ public class EditProfile extends AppCompatActivity {
         builder.show();
     }
 
-    private  boolean checkAndRequestPermissions() {
+    private boolean checkAndRequestPermissions() {
         int permissionCamera = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA);
         int permissionWrite = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -377,7 +396,7 @@ public class EditProfile extends AppCompatActivity {
             listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
         if (!listPermissionsNeeded.isEmpty()) {
-            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]),REQUEST_ID_MULTIPLE_PERMISSIONS);
+            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), REQUEST_ID_MULTIPLE_PERMISSIONS);
             return false;
         }
         return true;
@@ -443,7 +462,7 @@ public class EditProfile extends AppCompatActivity {
                         }
                     });
 
-           // DatabaseReference lamaran =FirebaseDatabase.getInstance().getReference().child("Lamaran")
+            // DatabaseReference lamaran =FirebaseDatabase.getInstance().getReference().child("Lamaran")
 
         }
     }

@@ -158,6 +158,18 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
             return;
         }
 
+        if (Snotelp.length() < 11) {
+            notelp.setError("Nomor Tidak valid");
+            notelp.requestFocus();
+            return;
+        }
+
+        if(Snotelp.length() > 12){
+            notelp.setError("Nomot Tidak Valid");
+            notelp.requestFocus();
+            return;
+        }
+
         //katasandi
         if (Spass.isEmpty()) {
             katasandi.setError("Kata Sandi Tidak Boleh Kosong");
@@ -221,7 +233,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
                     //try
                     newPost.put("Gender", Snull);
                     newPost.put("Alamat", Snull);
-                    newPost.put("BidangKerja",Snull);
+                    newPost.put("BidangKerja", Snull);
                     newPost.put("TempatTanggalLahir", Snull);
                     newPost.put("Disabilitas", Snull);
                     newPost.put("Pict", Spict);

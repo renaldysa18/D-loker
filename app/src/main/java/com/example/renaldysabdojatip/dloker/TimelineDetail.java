@@ -215,10 +215,10 @@ public class TimelineDetail extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 cv = dataSnapshot.child("CV").getValue(String.class);
-                /*if(!cv.equalsIgnoreCase("CV Belum Tersedia")){
+                if(!cv.equalsIgnoreCase("CV Belum Tersedia")){
                     btn_lamaran.setVisibility(View.VISIBLE);
                 }
-                profileImage = dataSnapshot.child("Pict").getValue(String.class);*/
+                profileImage = dataSnapshot.child("Pict").getValue(String.class);
 
                 checkNama = dataSnapshot.   child("Nama").getValue().toString();
                 checkEmail = dataSnapshot.child("Email").getValue().toString();

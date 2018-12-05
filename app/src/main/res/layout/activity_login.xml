@@ -19,10 +19,11 @@
             android:layout_height="match_parent">
 
             <ImageView
+                android:id="@+id/loginImage"
                 android:src="@drawable/logo218x107"
                 android:background="@color/tranparant"
-                android:layout_width="@dimen/logo_width"
-                android:layout_height="@dimen/logo_width" />
+                android:layout_width="300dp"
+                android:layout_height="250dp" />
 
             <android.support.design.widget.TextInputLayout
                 android:layout_marginTop="@dimen/top"
