@@ -24,7 +24,7 @@ import java.util.Map;
 
 import javax.net.ssl.SNIMatcher;
 
-public class SignUp extends AppCompatActivity implements View.OnClickListener {
+public class    SignUp extends AppCompatActivity implements View.OnClickListener {
 
 
     EditText nama, email, notelp, katasandi, retype_katasandi;
