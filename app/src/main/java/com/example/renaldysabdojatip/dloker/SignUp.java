@@ -224,7 +224,7 @@ public class    SignUp extends AppCompatActivity implements View.OnClickListener
                     newPost.put("BidangKerja",Snull);
                     newPost.put("TempatTanggalLahir", Snull);
                     newPost.put("Disabilitas", Snull);
-                    newPost.put("Pict", Spict);
+                    newPost.put("Pict", "http://icmi.or.id/assets/img/profile/profile.png");
                     newPost.put("CV", Scv);
                     newPost.put("Status", Sstatus);
                     newPost.put("accType", Spelamar);

@@ -12,4 +12,5 @@
     <color name="red">#f50303</color>
     <color name="blue">#2d00f7</color>
     <color name="green">#0dff00</color>
+    <color name="base_color_white_percentage_alpha_50">#80ffffff</color>
 </resources>

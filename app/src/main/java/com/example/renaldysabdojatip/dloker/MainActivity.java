@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity
                 semail =dataSnapshot.child("Email").getValue(String.class);
                 temail.setText(semail);
                 url = dataSnapshot.child("Pict").getValue(String.class);
-                Glide.with(MainActivity.this)
+                Glide.with(getApplicationContext())
                         .load(url)
                         .into(pict);
             }

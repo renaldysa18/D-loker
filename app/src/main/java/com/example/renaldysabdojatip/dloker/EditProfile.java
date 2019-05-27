@@ -172,7 +172,7 @@ public class EditProfile extends AppCompatActivity {
                 //image
                 String url;
                 url = dataSnapshot.child("Pict").getValue().toString(); 
-                Glide.with(EditProfile.this)
+                Glide.with(getApplicationContext())
                         .load(url)
                         .into(pict);
 

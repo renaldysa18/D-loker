@@ -74,6 +74,8 @@ public class ProfileFragment extends Fragment {
     Uri imgUri, filepath;
     String namaCV;
 
+    ProgressDialog dialog;
+
     private static int SELECT_FILE = 1;
 
     public ProfileFragment() {
@@ -85,7 +87,7 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView =  inflater.inflate(R.layout.fragment_profile, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
 
         //init
         //ep = new EditProfileFragment();
@@ -101,27 +103,27 @@ public class ProfileFragment extends Fragment {
         mRef = FirebaseDatabase.getInstance().getReference("Users").child(mUser.getUid());
 
         //image
-        pictProfil = (ImageView)rootView.findViewById(R.id.profile_pict);
+        pictProfil = (ImageView) rootView.findViewById(R.id.profile_pict);
 
         //textview
-        alamat = (TextView)rootView.findViewById(R.id.profile_alamat);
-        nama = (TextView)rootView.findViewById(R.id.profile_nama);
-        email = (TextView)rootView.findViewById(R.id.profile_email);
-        ttl = (TextView)rootView.findViewById(R.id.profile_ttl);
-        gender = (TextView)rootView.findViewById(R.id.profile_gender);
-        notelp = (TextView)rootView.findViewById(R.id.profile_notelp);
-        bidang_kerja = (TextView)rootView.findViewById(R.id.profile_bidang_kerja);
-        disabilitas = (TextView)rootView.findViewById(R.id.profile_disabilitas);
+        alamat = (TextView) rootView.findViewById(R.id.profile_alamat);
+        nama = (TextView) rootView.findViewById(R.id.profile_nama);
+        email = (TextView) rootView.findViewById(R.id.profile_email);
+        ttl = (TextView) rootView.findViewById(R.id.profile_ttl);
+        gender = (TextView) rootView.findViewById(R.id.profile_gender);
+        notelp = (TextView) rootView.findViewById(R.id.profile_notelp);
+        bidang_kerja = (TextView) rootView.findViewById(R.id.profile_bidang_kerja);
+        disabilitas = (TextView) rootView.findViewById(R.id.profile_disabilitas);
 
         //judul
-        judul_cv = (TextView)rootView.findViewById(R.id.judul_cv);
+        judul_cv = (TextView) rootView.findViewById(R.id.judul_cv);
 
         //button
-        btn_pilih = (Button)rootView.findViewById(R.id.btn_pilih_Cv);
-        btn_unggah = (Button)rootView.findViewById(R.id.btn_unggah_Cv);
+        btn_pilih = (Button) rootView.findViewById(R.id.btn_pilih_Cv);
+        btn_unggah = (Button) rootView.findViewById(R.id.btn_unggah_Cv);
 
         //fab
-        fab_edit = (FloatingActionButton)rootView.findViewById(R.id.fab_edit_profile);
+        fab_edit = (FloatingActionButton) rootView.findViewById(R.id.fab_edit_profile);
 
         fab_edit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,14 +135,15 @@ public class ProfileFragment extends Fragment {
 
                     isOpen = false;
                 } else {*/
-                    Intent intent = new Intent(getActivity(), EditProfile.class);
-                    startActivity(intent);
+                Intent intent = new Intent(getActivity(), EditProfile.class);
+                startActivity(intent);
                     /*FragmentManager fm = getFragmentManager();
                     fm.beginTransaction().replace(R.id.main_frame, ep).commit();*/
                     /*isOpen = true;
                 }*/
             }
         });
+
         //btn unggah
         btn_unggah.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,7 +152,14 @@ public class ProfileFragment extends Fragment {
                 mRef.child("namaCV").setValue(namaCV).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(getActivity(), "Mengunggah CV harap tunggu", Toast.LENGTH_SHORT).show();
+                        if (!task.isSuccessful()) {
+                            dialogShow();
+                            Toast.makeText(getActivity(), "Mengunggah CV harap tunggu", Toast.LENGTH_SHORT).show();
+                        } else {
+                            dialogShow();
+                            dialog.dismiss();
+                            Toast.makeText(getActivity(), "CV berhasil diunggah", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
                 //Toast.makeText(getActivity(), "Mengunggah CV", Toast.LENGTH_SHORT).show();
@@ -203,11 +213,25 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
-                Log.e("Error pada : " , databaseError.getMessage());
+                Log.e("Error pada : ", databaseError.getMessage());
 
             }
         });
         return rootView;
+    }
+
+    private void dialogShow() {
+        dialog = new ProgressDialog(getContext(), R.style.AppTheme_NoActionBar) {
+            @Override
+            protected void onCreate(Bundle savedInstanceState) {
+                super.onCreate(savedInstanceState);
+                setContentView(R.layout.progress_dialog);
+                getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            }
+        };
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
     }
 
     private void pilihCV(int pick) {
@@ -221,16 +245,16 @@ public class ProfileFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode == Activity.RESULT_OK){
-            if(requestCode == SELECT_FILE){
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == SELECT_FILE) {
                 String s = data.getDataString();
                 Uri uri = Uri.parse(s);
                 this.filepath = uri;
                 String path = data.getData().getPath();
-                String name = path.substring(path.lastIndexOf("/")+1);
+                String name = path.substring(path.lastIndexOf("/") + 1);
                 this.namaCV = name;
                 judul_cv.setText(name);
-                if(!this.namaCV.equalsIgnoreCase("CV Belum Tersedia")){
+                if (!this.namaCV.equalsIgnoreCase("CV Belum Tersedia")) {
                     btn_unggah.setVisibility(View.VISIBLE);
                 }
             }
@@ -282,7 +306,7 @@ public class ProfileFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        ((MainActivity)getActivity()).setActionBarTitle("Profile");
+        ((MainActivity) getActivity()).setActionBarTitle("Profile");
     }
 
 }
